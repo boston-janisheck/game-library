@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import SpinButton from "./SpinButton";
 
 const Slots = ({ pointsData }) => {
@@ -8,28 +8,72 @@ const Slots = ({ pointsData }) => {
   const [slot2, setSlot2] = useState(elements[0]);
   const [slot3, setSlot3] = useState(elements[0]);
   const [isSpinning, setIsSpinning] = useState(false);
+  const [isSpinComplete, setIsSpinComplete] = useState(false);
 
   const spinSlot = (setSlot, duration) => {
-    let index = 0;
-    const interval = setInterval(() => {
-      index = (index + 1) % elements.length;
-      setSlot(elements[index]);
-    }, 100);
+    return new Promise((resolve) => {
+      let index = 0;
+      const interval = setInterval(() => {
+        index = (index + 1) % elements.length;
+        setSlot(elements[index]);
+      }, 100);
 
-    setTimeout(() => {
-      clearInterval(interval);
-      const randomIndex = Math.floor(Math.random() * elements.length);
-      setSlot(elements[randomIndex]);
-    }, duration);
+      setTimeout(() => {
+        clearInterval(interval);
+        const randomIndex = Math.floor(Math.random() * elements.length);
+        setSlot(elements[randomIndex]);
+        resolve();
+      }, duration);
+    });
   };
 
-  const handleSpin = () => {
-    if (isSpinning) return; // Prevent spinning if already spinning
+  // Use useCallback to memoize the calculatePoints function
+  const calculatePoints = useCallback(() => {
+    const slots = [slot1, slot2, slot3];
+    const counts = slots.reduce((acc, symbol) => {
+      acc[symbol] = (acc[symbol] || 0) + 1;
+      return acc;
+    }, {});
+
+    let points = 0;
+
+    // If there are 3 matching symbols
+    if (Object.values(counts).includes(3)) {
+      points = pointsData.find((item) => item.symbol === slot1)?.points || 0;
+    }
+    // If there are 2 "7️⃣"s
+    else if (counts["7️⃣"] === 2) {
+      const otherSymbol = slots.find((symbol) => symbol !== "7️⃣");
+      points =
+        pointsData.find((item) => item.symbol === otherSymbol)?.points || 0;
+    }
+    // If there is 1 "7️⃣" and two unique symbols
+    else if (counts["7️⃣"] === 1) {
+      points = 10;
+    }
+
+    console.log(`You earned ${points} points!`);
+  }, [slot1, slot2, slot3, pointsData]);
+
+  useEffect(() => {
+    if (isSpinComplete) {
+      calculatePoints();
+      setIsSpinComplete(false);
+    }
+  }, [isSpinComplete, calculatePoints]);
+
+  const handleSpin = async () => {
+    if (isSpinning) return;
     setIsSpinning(true);
-    spinSlot(setSlot1, 1000);
-    spinSlot(setSlot2, 2000);
-    spinSlot(setSlot3, 3000);
-    setTimeout(() => setIsSpinning(false), 3000);
+
+    await Promise.all([
+      spinSlot(setSlot1, 1000),
+      spinSlot(setSlot2, 2000),
+      spinSlot(setSlot3, 3000),
+    ]);
+
+    setIsSpinning(false);
+    setIsSpinComplete(true);
   };
 
   return (

@@ -46,6 +46,16 @@ const Slots = ({ pointsData }) => {
       const otherSymbol = slots.find((symbol) => symbol !== "7️⃣");
       points =
         pointsData.find((item) => item.symbol === otherSymbol)?.points || 0;
+    } else if (
+      Object.keys(counts).filter((symbol) => counts[symbol] >= 2).length > 1 &&
+      Object.values(counts).some((count) => count < 3)
+    ) {
+      const doubledSymbols = Object.keys(counts).filter(
+        (symbol) => counts[symbol] >= 2
+      );
+      points =
+        pointsData.find((item) => item.symbol === doubledSymbols[0])?.points ||
+        0;
     }
     // If there is 1 "7️⃣" and two unique symbols
     else if (counts["7️⃣"] === 1) {

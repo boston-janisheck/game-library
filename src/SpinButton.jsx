@@ -1,7 +1,7 @@
-const SpinButton = ({ handleSpin, isSpinning }) => {
+const SpinButton = ({ handleSpin, isSpinning, isDisabled }) => {
   return (
-    <button className="spin-button" onClick={handleSpin} disabled={isSpinning}>
-      Spin
+    <button onClick={handleSpin} disabled={isSpinning || isDisabled}>
+      {isSpinning ? "Spinning..." : "Spin"}
     </button>
   );
 };

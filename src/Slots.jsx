@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import SpinButton from "./SpinButton";
+import InsertCoin from "./InsertCoin";
 
 const Slots = ({ pointsData }) => {
   const elements = pointsData.map((item) => item.symbol);
@@ -9,6 +10,7 @@ const Slots = ({ pointsData }) => {
   const [slot3, setSlot3] = useState(elements[0]);
   const [isSpinning, setIsSpinning] = useState(false);
   const [isSpinComplete, setIsSpinComplete] = useState(false);
+  const [balance, setBalance] = useState(0);
 
   const spinSlot = (setSlot, duration) => {
     return new Promise((resolve) => {
@@ -27,7 +29,6 @@ const Slots = ({ pointsData }) => {
     });
   };
 
-  // Use useCallback to memoize the calculatePoints function
   const calculatePoints = useCallback(() => {
     const slots = [slot1, slot2, slot3];
     const counts = slots.reduce((acc, symbol) => {
@@ -37,12 +38,9 @@ const Slots = ({ pointsData }) => {
 
     let points = 0;
 
-    // If there are 3 matching symbols
     if (Object.values(counts).includes(3)) {
       points = pointsData.find((item) => item.symbol === slot1)?.points || 0;
-    }
-    // If there are 2 "7️⃣"s
-    else if (counts["7️⃣"] === 2) {
+    } else if (counts["7️⃣"] === 2) {
       const otherSymbol = slots.find((symbol) => symbol !== "7️⃣");
       points =
         pointsData.find((item) => item.symbol === otherSymbol)?.points || 0;
@@ -56,9 +54,7 @@ const Slots = ({ pointsData }) => {
       points =
         pointsData.find((item) => item.symbol === doubledSymbols[0])?.points ||
         0;
-    }
-    // If there is 1 "7️⃣" and two unique symbols
-    else if (counts["7️⃣"] === 1) {
+    } else if (counts["7️⃣"] === 1) {
       points = 10;
     }
 
@@ -73,8 +69,9 @@ const Slots = ({ pointsData }) => {
   }, [isSpinComplete, calculatePoints]);
 
   const handleSpin = async () => {
-    if (isSpinning) return;
+    if (isSpinning || balance <= 0) return;
     setIsSpinning(true);
+    setBalance((prevBalance) => prevBalance - 1);
 
     await Promise.all([
       spinSlot(setSlot1, 1000),
@@ -88,12 +85,17 @@ const Slots = ({ pointsData }) => {
 
   return (
     <div className="slot-machine">
+      <InsertCoin balance={balance} setBalance={setBalance} />
       <div className="slots">
         <div className="slot">{slot1}</div>
         <div className="slot">{slot2}</div>
         <div className="slot">{slot3}</div>
       </div>
-      <SpinButton handleSpin={handleSpin} isSpinning={isSpinning} />
+      <SpinButton
+        handleSpin={handleSpin}
+        isSpinning={isSpinning}
+        isDisabled={balance <= 0}
+      />
     </div>
   );
 };

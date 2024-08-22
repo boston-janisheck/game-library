@@ -1,9 +1,9 @@
 const SpinButton = ({ handleSpin, isSpinning, isDisabled }) => {
-  return (
-    <button onClick={handleSpin} disabled={isSpinning || isDisabled}>
-      {isSpinning ? "Spinning..." : "Spin"}
+  return !isSpinning ? (
+    <button className="spin-button" onClick={handleSpin} disabled={isDisabled}>
+      Spin
     </button>
-  );
+  ) : null;
 };
 
 export default SpinButton;

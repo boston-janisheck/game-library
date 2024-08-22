@@ -1,5 +1,4 @@
 import Footer from "./Footer";
-import InsertCoin from "./InsertCoin";
 import NavBar from "./NavBar";
 import PointsKey from "./PointsKey";
 import Slots from "./Slots";
@@ -19,7 +18,6 @@ const App = () => {
       <NavBar />
       <PointsKey pointsData={pointsData} />
       <Slots pointsData={pointsData} />
-      <InsertCoin />
       <Footer />
     </>
   );

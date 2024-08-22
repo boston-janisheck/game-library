@@ -5,8 +5,13 @@ const InsertCoin = ({ balance, setBalance }) => {
 
   return (
     <div className="insert-coin">
-      <h2>Balance: {balance} Coins</h2>
-      <button onClick={addCoins}>Add Coins</button>
+      <span className="coin-balance-container">
+        <img src="src/assets/coins.png" alt="coin" className="coin" />
+        <span className="coin-balance">{balance}</span>
+      </span>
+      <button className="insert-coin-button" onClick={addCoins}>
+        Add Coins
+      </button>
     </div>
   );
 };

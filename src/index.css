@@ -68,19 +68,17 @@ body {
   padding: 12px 20px;
   cursor: pointer;
   border: none;
-  background-color: #007bff;
-  color: #ffeb81;
+  background-color: #ffeb81;
+  color: #333;
   border-radius: 5px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .spin-button:disabled {
-  background-color: #0056b3;
+  background-color: #333;
+  color: #ffeb81;
 }
 
-.spin-button:hover {
-  background-color: #0056b3;
-}
 .footer {
   background-color: #333;
   color: white;
@@ -139,4 +137,47 @@ body {
   font-weight: bold;
   font-size: 20px;
   color: #ffeb81;
+}
+
+.insert-coin {
+  display: flex;
+  justify-content: space-around;
+  position: fixed;
+  bottom: 100px;
+  width: 100%;
+  background-color: #ffeb81;
+  color: black;
+  padding: 10px;
+  text-align: center;
+}
+
+.insert-coin-button {
+  font-size: 20px;
+  padding: 12px 20px;
+  cursor: pointer;
+  border: none;
+  background-color: #333;
+  color: #ffeb81;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.coin {
+  max-width: 40px;
+  align-self: center;
+}
+
+.coin-balance-container {
+  display: flex;
+  justify-content: center;
+  align-content: space-around;
+}
+
+.coin-balance {
+  margin-left: 10px;
+  font-size: 30px;
+  color: #333;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

@@ -85,7 +85,6 @@ const Slots = ({ pointsData }) => {
 
   return (
     <div className="slot-machine">
-      <InsertCoin balance={balance} setBalance={setBalance} />
       <div className="slots">
         <div className="slot">{slot1}</div>
         <div className="slot">{slot2}</div>
@@ -96,6 +95,7 @@ const Slots = ({ pointsData }) => {
         isSpinning={isSpinning}
         isDisabled={balance <= 0}
       />
+      <InsertCoin balance={balance} setBalance={setBalance} />
     </div>
   );
 };

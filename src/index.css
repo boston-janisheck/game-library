@@ -181,3 +181,9 @@ body {
   justify-content: center;
   align-items: center;
 }
+
+.bux {
+  max-width: 40px;
+  align-self: center;
+  padding-bottom: 3px;
+}

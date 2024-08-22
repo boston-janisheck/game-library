@@ -11,6 +11,7 @@ const Slots = ({ pointsData }) => {
   const [isSpinning, setIsSpinning] = useState(false);
   const [isSpinComplete, setIsSpinComplete] = useState(false);
   const [balance, setBalance] = useState(0);
+  const [allPoints, setAllPoints] = useState(0); // Cumulative points
 
   const spinSlot = (setSlot, duration) => {
     return new Promise((resolve) => {
@@ -58,8 +59,11 @@ const Slots = ({ pointsData }) => {
       points = 10;
     }
 
-    console.log(`You earned ${points} points!`);
-  }, [slot1, slot2, slot3, pointsData]);
+    setAllPoints((prevAllPoints) => prevAllPoints + points); // Update cumulative points
+    console.log(
+      `You earned ${points} points! Total Points: ${allPoints + points}`
+    );
+  }, [slot1, slot2, slot3, pointsData, allPoints]);
 
   useEffect(() => {
     if (isSpinComplete) {
@@ -95,7 +99,11 @@ const Slots = ({ pointsData }) => {
         isSpinning={isSpinning}
         isDisabled={balance <= 0}
       />
-      <InsertCoin balance={balance} setBalance={setBalance} />
+      <InsertCoin
+        allPoints={allPoints} // Pass cumulative points to InsertCoin
+        balance={balance}
+        setBalance={setBalance}
+      />
     </div>
   );
 };

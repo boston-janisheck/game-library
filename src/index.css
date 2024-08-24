@@ -139,7 +139,7 @@ body {
   color: #ffeb81;
 }
 
-.insert-coin {
+.player-status-bar {
   display: flex;
   justify-content: space-around;
   position: fixed;
@@ -151,7 +151,7 @@ body {
   text-align: center;
 }
 
-.insert-coin-button {
+.add-tokens-button {
   font-size: 20px;
   padding: 12px 20px;
   cursor: pointer;
@@ -162,28 +162,22 @@ body {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.coin {
+.icon {
   max-width: 40px;
   align-self: center;
 }
 
-.coin-balance-container {
+.balance-container {
   display: flex;
   justify-content: center;
   align-content: space-around;
 }
 
-.coin-balance {
+.balance {
   margin-left: 10px;
   font-size: 30px;
   color: #333;
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.bux {
-  max-width: 40px;
-  align-self: center;
-  padding-bottom: 3px;
 }

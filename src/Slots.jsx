@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import SpinButton from "./SpinButton";
-import InsertCoin from "./InsertCoin";
+import PlayerStatusBar from "./PlayerStatusBar";
 
 const Slots = ({ pointsData }) => {
   const elements = pointsData.map((item) => item.symbol);
@@ -99,8 +99,8 @@ const Slots = ({ pointsData }) => {
         isSpinning={isSpinning}
         isDisabled={balance <= 0}
       />
-      <InsertCoin
-        allPoints={allPoints} // Pass cumulative points to InsertCoin
+      <PlayerStatusBar
+        allPoints={allPoints} // Pass cumulative points to InsertToken
         balance={balance}
         setBalance={setBalance}
       />

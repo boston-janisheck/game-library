@@ -17,7 +17,7 @@ const PlayerStatusBar = ({ allPoints, balance, setBalance }) => {
         Add Tokens
       </button>
     </div>
-  );
+  ); // Token Shop to be implemented
 };
 
 export default PlayerStatusBar;

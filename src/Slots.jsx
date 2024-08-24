@@ -1,6 +1,9 @@
-import { useState, useEffect, useCallback } from "react";
+// Import React and other necessary modules
+import { useState } from "react";
+import SlotsGrid from "./SlotsGrid";
 import SpinButton from "./SpinButton";
 import PlayerStatusBar from "./PlayerStatusBar";
+import { calculatePoints } from "./PointsCalculator";
 
 const Slots = ({ pointsData }) => {
   const elements = pointsData.map((item) => item.symbol);
@@ -9,9 +12,8 @@ const Slots = ({ pointsData }) => {
   const [slot2, setSlot2] = useState(elements[0]);
   const [slot3, setSlot3] = useState(elements[0]);
   const [isSpinning, setIsSpinning] = useState(false);
-  const [isSpinComplete, setIsSpinComplete] = useState(false);
-  const [balance, setBalance] = useState(0);
-  const [allPoints, setAllPoints] = useState(0); // Cumulative points
+  const [balance, setBalance] = useState(0); // Token balance
+  const [allPoints, setAllPoints] = useState(0); // Cumulative points/bux
 
   const spinSlot = (setSlot, duration) => {
     return new Promise((resolve) => {
@@ -25,82 +27,46 @@ const Slots = ({ pointsData }) => {
         clearInterval(interval);
         const randomIndex = Math.floor(Math.random() * elements.length);
         setSlot(elements[randomIndex]);
-        resolve();
+        resolve(elements[randomIndex]);
       }, duration);
     });
   };
-
-  const calculatePoints = useCallback(() => {
-    const slots = [slot1, slot2, slot3];
-    const counts = slots.reduce((acc, symbol) => {
-      acc[symbol] = (acc[symbol] || 0) + 1;
-      return acc;
-    }, {});
-
-    let points = 0;
-
-    if (Object.values(counts).includes(3)) {
-      points = pointsData.find((item) => item.symbol === slot1)?.points || 0;
-    } else if (counts["7️⃣"] === 2) {
-      const otherSymbol = slots.find((symbol) => symbol !== "7️⃣");
-      points =
-        pointsData.find((item) => item.symbol === otherSymbol)?.points || 0;
-    } else if (
-      Object.keys(counts).filter((symbol) => counts[symbol] >= 2).length > 1 &&
-      Object.values(counts).some((count) => count < 3)
-    ) {
-      const doubledSymbols = Object.keys(counts).filter(
-        (symbol) => counts[symbol] >= 2
-      );
-      points =
-        pointsData.find((item) => item.symbol === doubledSymbols[0])?.points ||
-        0;
-    } else if (counts["7️⃣"] === 1) {
-      points = 10;
-    }
-
-    setAllPoints((prevAllPoints) => prevAllPoints + points); // Update cumulative points
-    console.log(
-      `You earned ${points} points! Total Points: ${allPoints + points}`
-    );
-  }, [slot1, slot2, slot3, pointsData, allPoints]);
-
-  useEffect(() => {
-    if (isSpinComplete) {
-      calculatePoints();
-      setIsSpinComplete(false);
-    }
-  }, [isSpinComplete, calculatePoints]);
 
   const handleSpin = async () => {
     if (isSpinning || balance <= 0) return;
     setIsSpinning(true);
     setBalance((prevBalance) => prevBalance - 1);
 
-    await Promise.all([
+    const results = await Promise.all([
       spinSlot(setSlot1, 1000),
       spinSlot(setSlot2, 2000),
       spinSlot(setSlot3, 3000),
     ]);
 
     setIsSpinning(false);
-    setIsSpinComplete(true);
+
+    const points = calculatePoints(
+      results[0],
+      results[1],
+      results[2],
+      pointsData
+    );
+    setAllPoints((prevAllPoints) => prevAllPoints + points);
+    console.log(
+      `You earned ${points} points! Total Points: ${allPoints + points}`
+    );
   };
 
   return (
     <div className="slot-machine">
-      <div className="slots">
-        <div className="slot">{slot1}</div>
-        <div className="slot">{slot2}</div>
-        <div className="slot">{slot3}</div>
-      </div>
+      <SlotsGrid slot1={slot1} slot2={slot2} slot3={slot3} />
       <SpinButton
         handleSpin={handleSpin}
         isSpinning={isSpinning}
         isDisabled={balance <= 0}
       />
       <PlayerStatusBar
-        allPoints={allPoints} // Pass cumulative points to InsertToken
+        allPoints={allPoints}
         balance={balance}
         setBalance={setBalance}
       />

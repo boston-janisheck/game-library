@@ -64,14 +64,13 @@ body {
 }
 
 .spin-button {
-  font-size: 20px;
-  padding: 12px 20px;
+  font-size: 30px;
+  padding: 20px 30px;
   cursor: pointer;
   border: none;
   background-color: #ffeb81;
   color: #333;
   border-radius: 5px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .spin-button:disabled {
@@ -114,7 +113,7 @@ body {
   border-radius: 30px;
   padding: 20px;
   max-width: 300px;
-  margin: 120px auto auto auto;
+  margin: 50px auto 100px auto;
   background-color: #333;
 }
 
@@ -180,4 +179,34 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.wager-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  width: 50px;
+  padding-top: 20px;
+}
+
+.wager-amount {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-weight: bold;
+  font-size: 1.2rem;
+  pointer-events: none;
+  padding-top: 20px;
+}
+
+.token-icon {
+  width: 50px;
+  height: 50px;
 }

@@ -31,6 +31,8 @@ The game uses the following point system:
 - 3x🍌: 75 points
 - 3x🔔: 50 points
 
+A 7️⃣ is similar to a free space, allowing other icons to receive their '3x' points rewards.
+
 ## Future Features
 **Enhanced Visual Effects:** Additional animations and effects during spins.
 
@@ -44,3 +46,5 @@ To run this project locally:
 - Clone the repository.
 - Install dependencies using npm install.
 - Start the development server with npm start.
+
+The code of this project is made entirely by Boston Janisheck

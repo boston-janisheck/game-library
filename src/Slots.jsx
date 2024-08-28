@@ -58,10 +58,20 @@ const Slots = () => {
 
     const points =
       calculatePoints(results[0], results[1], results[2], pointsData) * wager;
-    setAllPoints((prevAllPoints) => prevAllPoints + points);
-    console.log(
-      `You earned ${points} points! Total Points: ${allPoints + points}`
-    );
+
+    // Animate the points addition
+    let currentPoints = allPoints;
+    const targetPoints = allPoints + points;
+    const interval = setInterval(() => {
+      if (currentPoints < targetPoints) {
+        currentPoints += 1;
+        setAllPoints(currentPoints);
+      } else {
+        clearInterval(interval);
+      }
+    }, 20); // Adjust the speed as needed
+
+    console.log(`You earned ${points} points! Total Points: ${targetPoints}`);
   };
 
   return (

@@ -7,23 +7,31 @@ export const calculatePoints = (slot1, slot2, slot3, pointsData) => {
 
   let points = 0;
 
-  if (Object.values(counts).includes(3)) {
-    points = pointsData.find((item) => item.symbol === slot1)?.points || 0;
+  if (counts["7️⃣"] === 3) {
+    // Case: 3 "7️⃣" in a row
+    points = pointsData.find((item) => item.symbol === "7️⃣")?.points || 0;
+  } else if (Object.values(counts).includes(3)) {
+    // Case: 3 identical non-"7️⃣" symbols
+    const matchingSymbol = Object.keys(counts).find(
+      (symbol) => counts[symbol] === 3
+    );
+    points =
+      pointsData.find((item) => item.symbol === matchingSymbol)?.points || 0;
   } else if (counts["7️⃣"] === 2) {
+    // Case: 2 "7️⃣" symbols
     const otherSymbol = slots.find((symbol) => symbol !== "7️⃣");
     points =
       pointsData.find((item) => item.symbol === otherSymbol)?.points || 0;
-  } else if (
-    Object.keys(counts).filter((symbol) => counts[symbol] >= 2).length > 1 &&
-    Object.values(counts).some((count) => count < 3)
-  ) {
-    const doubledSymbols = Object.keys(counts).filter(
-      (symbol) => counts[symbol] >= 2
-    );
-    points =
-      pointsData.find((item) => item.symbol === doubledSymbols[0])?.points || 0;
   } else if (counts["7️⃣"] === 1) {
-    points = 10;
+    const non7Symbols = slots.filter((symbol) => symbol !== "7️⃣");
+    if (non7Symbols.length === 2 && non7Symbols[0] === non7Symbols[1]) {
+      // Case: 1 "7️⃣" + 2 identical non-"7️⃣" symbols
+      points =
+        pointsData.find((item) => item.symbol === non7Symbols[0])?.points || 0;
+    } else {
+      // Case: 1 "7️⃣" + 2 different symbols
+      points = 10;
+    }
   }
 
   return points;

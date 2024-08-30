@@ -5,6 +5,7 @@ import PlayerStatusBar from "./PlayerStatusBar";
 import { calculatePoints } from "./PointsCalculator";
 import PointsKey from "./PointsKey";
 import WagerButton from "./WagerButton";
+import WinPopup from "./WinPopup"; // Import the WinPopup component
 
 const pointsData = [
   { symbol: "7️⃣", points: 500 },
@@ -22,9 +23,11 @@ const Slots = () => {
   const [slot2, setSlot2] = useState(elements[0]);
   const [slot3, setSlot3] = useState(elements[0]);
   const [isSpinning, setIsSpinning] = useState(false);
-  const [balance, setBalance] = useState(0); // Token balance
-  const [allPoints, setAllPoints] = useState(0); // Cumulative points/bux
+  const [balance, setBalance] = useState(0);
+  const [allPoints, setAllPoints] = useState(0);
   const [wager, setWager] = useState(1);
+  const [showWinPopup, setShowWinPopup] = useState(false); // State for showing the popup
+  const [lastPoints, setLastPoints] = useState(0); // State to store last points won
 
   const spinSlot = (setSlot, duration) => {
     return new Promise((resolve) => {
@@ -71,11 +74,22 @@ const Slots = () => {
       }
     }, 20); // Adjust the speed as needed
 
+    if (points > 0) {
+      setLastPoints(points); // Store points won in state
+      setShowWinPopup(true); // Show the popup if points were won
+    }
+
     console.log(`You earned ${points} points! Total Points: ${targetPoints}`);
   };
 
   return (
     <div className="slot-machine">
+      {showWinPopup && (
+        <WinPopup
+          points={lastPoints}
+          onClose={() => setShowWinPopup(false)} // Hide popup on close
+        />
+      )}
       <PointsKey pointsData={pointsData} wager={wager} />
       <SlotsGrid slot1={slot1} slot2={slot2} slot3={slot3} />
       <div className="controls">

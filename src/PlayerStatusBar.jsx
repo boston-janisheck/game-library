@@ -1,6 +1,6 @@
 const PlayerStatusBar = ({ allPoints, balance, setBalance }) => {
   const addTokens = () => {
-    setBalance((prevBalance) => prevBalance + 1);
+    setBalance((prevBalance) => prevBalance + 10);
   };
 
   return (

@@ -23,7 +23,7 @@ body {
   font-weight: bold;
   position: absolute;
   left: 50%;
-  transform: translateX(-63%); // Center the title horizontally
+  transform: translateX(-63%); /* Center the title horizontally */
 }
 
 .navbar-link {
@@ -40,13 +40,19 @@ body {
 
 .slot-machine {
   text-align: center;
-  padding-top: 100px; /* Add some padding to ensure content isn't hidden behind the navbar */
+  margin: 120px auto auto auto;
+  padding: 10px 0 50px 0;
+  width: 750px;
+  background-color: #444443;
+  border-radius: 50px;
+  border: 5px solid #000;
+  height: 850px;
 }
 
 .slots {
   display: flex;
   justify-content: center;
-  margin-bottom: 20px;
+  margin-bottom: 140px;
 }
 
 .slot {
@@ -64,13 +70,14 @@ body {
 }
 
 .spin-button {
-  font-size: 30px;
+  font-size: 50px;
   padding: 20px 30px;
   cursor: pointer;
   border: none;
   background-color: #ffeb81;
   color: #333;
   border-radius: 5px;
+  border: 3px solid #000;
 }
 
 .spin-button:disabled {
@@ -78,9 +85,42 @@ body {
   color: #ffeb81;
 }
 
-.footer {
-  background-color: #333;
+.wager-button {
+  background: none; /* Remove default background */
+  border: none; /* Remove border */
+  cursor: pointer;
+  display: inline-flex; /* Align contents inside the button */
+  align-items: center; /* Center contents vertically */
+  justify-content: center; /* Center contents horizontally */
+  margin-left: 15px; /* Spacing from the spin button */
+  position: absolute; /* Same positioning as spin button */
+  left: 120%; /* Move more to the right */
+}
+
+.wager-amount {
+  position: absolute; /* Position within the icon */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   color: white;
+  font-weight: bold;
+  font-size: 1.2rem;
+  pointer-events: none;
+}
+
+.token-icon {
+  max-width: 40px; /* Size of the token icon */
+  height: auto;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-evenly;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: #333;
+  color: #ffeb81;
   padding: 20px;
   text-align: center;
 }
@@ -94,18 +134,6 @@ body {
 
 .footer-link:hover {
   text-decoration: underline;
-}
-
-.footer {
-  display: flex;
-  justify-content: space-evenly;
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  background-color: #333;
-  color: #ffeb81;
-  padding: 20px;
-  text-align: center;
 }
 
 .points-key-container {
@@ -181,36 +209,6 @@ body {
   align-items: center;
 }
 
-.wager-button {
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto;
-  width: 50px;
-  padding-top: 20px;
-}
-
-.wager-amount {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: white;
-  font-weight: bold;
-  font-size: 1.2rem;
-  pointer-events: none;
-  padding-top: 20px;
-}
-
-.token-icon {
-  width: 50px;
-  height: 50px;
-}
-
 .win-popup-overlay {
   position: fixed;
   top: 0;
@@ -248,4 +246,22 @@ body {
   padding: 10px 20px;
   cursor: pointer;
   font-size: 1rem;
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.controls .spin-button {
+  position: relative; /* Ensures the spin button stays properly positioned */
+}
+
+.controls .wager-button {
+  position: absolute; /* Allows absolute positioning within the controls div */
+  left: calc(
+    50% + 80px
+  ); /* Adjust this value to move the button more to the right */
 }

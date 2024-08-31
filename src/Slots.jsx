@@ -83,29 +83,35 @@ const Slots = () => {
   };
 
   return (
-    <div className="slot-machine">
-      {showWinPopup && (
-        <WinPopup
-          points={lastPoints}
-          onClose={() => setShowWinPopup(false)} // Hide popup on close
-        />
-      )}
-      <PointsKey pointsData={pointsData} wager={wager} />
-      <SlotsGrid slot1={slot1} slot2={slot2} slot3={slot3} />
-      <div className="controls">
-        <SpinButton
-          handleSpin={handleSpin}
-          isSpinning={isSpinning}
-          isDisabled={balance < wager}
-        />
-        <WagerButton wager={wager} setWager={setWager} />
+    <>
+      <div className="slot-machine">
+        {showWinPopup && (
+          <WinPopup
+            points={lastPoints}
+            onClose={() => setShowWinPopup(false)} // Hide popup on close
+          />
+        )}
+        <PointsKey pointsData={pointsData} wager={wager} />
+        <SlotsGrid slot1={slot1} slot2={slot2} slot3={slot3} />
+        <div className="controls">
+          {!isSpinning && (
+            <>
+              <SpinButton
+                handleSpin={handleSpin}
+                isSpinning={isSpinning}
+                isDisabled={balance < wager}
+              />
+              <WagerButton wager={wager} setWager={setWager} />
+            </>
+          )}
+        </div>
       </div>
       <PlayerStatusBar
         allPoints={allPoints}
         balance={balance}
         setBalance={setBalance}
       />
-    </div>
+    </>
   );
 };
 

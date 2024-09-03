@@ -1,5 +1,13 @@
+import insertCoinsSound from "/src/assets/sounds/insert-coins.wav";
+
 const PlayerStatusBar = ({ allPoints, balance, setBalance }) => {
   const addTokens = () => {
+    // Play the sound
+    const audio = new Audio(insertCoinsSound);
+    audio.volume = 0.1;
+    audio.play();
+
+    // Add tokens
     setBalance((prevBalance) => prevBalance + 10);
   };
 
@@ -17,7 +25,7 @@ const PlayerStatusBar = ({ allPoints, balance, setBalance }) => {
         Add Tokens
       </button>
     </div>
-  ); // Token Shop to be implemented
+  );
 };
 
 export default PlayerStatusBar;

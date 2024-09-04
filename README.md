@@ -14,6 +14,8 @@ This is a work-in-progress slots game built using React. The game allows players
 
 **Token Balance:** Manage your token balance to ensure you have enough to place wagers.
 
+**Sound Effects:** Sound effects for spins, wins, and other actions.
+
 ## How to Play
 
 **Set Your Wager:** Use the wager button to set the amount you'd like to wager for each spin.
@@ -43,8 +45,6 @@ A 7️⃣ is similar to a free space, allowing other icons to receive their '3x'
 **Enhanced Visual Effects:** Additional animations and effects during spins.
 
 **Shop Feature:** Players will be able to purchase tokens or other in-game items.
-
-**Sound Effects:** Add sound effects for spins, wins, and other actions.
 
 ## Getting Started
 

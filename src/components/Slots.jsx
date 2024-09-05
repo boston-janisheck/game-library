@@ -5,7 +5,7 @@ import PlayerStatusBar from "./PlayerStatusBar";
 import { calculatePoints } from "./PointsCalculator";
 import PointsKey from "./PointsKey";
 import WagerButton from "./WagerButton";
-import WinPopup from "./WinPopup"; // Import the WinPopup component
+import WinPopup from "./WinPopup";
 
 const pointsData = [
   { symbol: "7️⃣", points: 500 },

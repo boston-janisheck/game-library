@@ -1,7 +1,12 @@
 const NavBar = () => {
   return (
     <nav className="navbar">
-      <div className="navbar-title">ARCADE</div>
+      <img
+        src="src/assets/arcade-icon.png"
+        alt="logo"
+        className="navbar-logo"
+      />
+      <h1 className="navbar-title">The Arcade</h1>
     </nav>
   );
 };

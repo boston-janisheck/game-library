@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap");
+
 body {
   font-family: "Inter", sans-serif;
   margin: 0;
@@ -8,22 +10,19 @@ body {
   display: flex;
   justify-content: center; /* Center the entire navbar content */
   align-items: center;
-  position: fixed;
-  top: 0;
   width: 100%;
-  padding: 40px;
   background-color: #2d2727;
-  color: white;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .navbar-title {
+  font-family: "Orbitron", sans-serif;
+  font-size: 50px;
   color: #ffeb81;
-  font-size: 70px;
-  font-weight: bold;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-63%); /* Center the title horizontally */
+  padding-left: 20px;
+}
+
+.navbar-logo {
+  width: 80px;
 }
 
 .navbar-link {
@@ -40,7 +39,7 @@ body {
 
 .slot-machine {
   text-align: center;
-  margin: 120px auto auto auto;
+  margin: 10px auto auto auto;
   padding: 10px 0 50px 0;
   width: 750px;
   background-color: #444443;
@@ -114,6 +113,7 @@ body {
 }
 
 .footer {
+  font-family: "Orbitron", sans-serif;
   display: flex;
   justify-content: space-evenly;
   position: fixed;
@@ -170,7 +170,7 @@ body {
   display: flex;
   justify-content: space-around;
   position: fixed;
-  bottom: 100px;
+  bottom: 80px;
   width: 100%;
   background-color: #ffeb81;
   color: black;

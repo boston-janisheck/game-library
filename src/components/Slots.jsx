@@ -6,14 +6,20 @@ import { calculatePoints } from "./PointsCalculator";
 import PointsKey from "./PointsKey";
 import WagerButton from "./WagerButton";
 import WinPopup from "./WinPopup";
+import sevenIcon from "/src/assets/slots-icon-seven.png";
+import cloverIcon from "/src/assets/slots-icon-clover.png";
+import cherryIcon from "/src/assets/slots-icon-cherry.png";
+import grapesIcon from "/src/assets/slots-icon-grapes.png";
+import diamondIcon from "/src/assets/slots-icon-diamond.png";
+import orangeIcon from "/src/assets/slots-icon-orange.png";
 
 const pointsData = [
-  { symbol: "7️⃣", points: 500 },
-  { symbol: "🍀", points: 150 },
-  { symbol: "🍒", points: 125 },
-  { symbol: "🍇", points: 100 },
-  { symbol: "🍌", points: 75 },
-  { symbol: "🔔", points: 50 },
+  { symbol: sevenIcon, points: 500 },
+  { symbol: cloverIcon, points: 150 },
+  { symbol: cherryIcon, points: 125 },
+  { symbol: grapesIcon, points: 100 },
+  { symbol: diamondIcon, points: 75 },
+  { symbol: orangeIcon, points: 50 },
 ];
 
 const Slots = ({ balance, setBalance, allPoints, setAllPoints }) => {

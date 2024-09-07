@@ -16,15 +16,13 @@ const pointsData = [
   { symbol: "🔔", points: 50 },
 ];
 
-const Slots = () => {
+const Slots = ({ balance, setBalance, allPoints, setAllPoints }) => {
   const elements = pointsData.map((item) => item.symbol);
 
   const [slot1, setSlot1] = useState(elements[0]);
   const [slot2, setSlot2] = useState(elements[0]);
   const [slot3, setSlot3] = useState(elements[0]);
   const [isSpinning, setIsSpinning] = useState(false);
-  const [balance, setBalance] = useState(0);
-  const [allPoints, setAllPoints] = useState(0);
   const [wager, setWager] = useState(1);
   const [showWinPopup, setShowWinPopup] = useState(false); // State for showing the popup
   const [lastPoints, setLastPoints] = useState(0); // State to store last points won

@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap");
 
 body {
   font-family: "Inter", sans-serif;
@@ -15,7 +16,7 @@ body {
 }
 
 .navbar-title {
-  font-family: "Orbitron", sans-serif;
+  font-family: "Inter", sans-serif;
   font-size: 50px;
   color: #ffeb81;
   padding-left: 20px;
@@ -113,27 +114,29 @@ body {
 }
 
 .footer {
-  font-family: "Orbitron", sans-serif;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
   position: fixed;
   bottom: 0;
   width: 100%;
   background-color: #333;
-  color: #ffeb81;
-  padding: 20px;
-  text-align: center;
+  color: #000;
+  padding: 5px;
 }
 
-.footer-link {
+.footer-icon {
   text-decoration: none;
-  color: #ffeb81;
+  color: #000;
   text-decoration: none;
   margin-right: 10px;
+  height: 25px;
+  width: 25px;
 }
 
-.footer-link:hover {
-  text-decoration: underline;
+.footer-text {
+  font-family: "Inter", sans-serif;
+  margin: auto 10% auto 10%;
+  font-size: 15px;
 }
 
 .points-key-container {
@@ -170,7 +173,7 @@ body {
   display: flex;
   justify-content: space-around;
   position: fixed;
-  bottom: 80px;
+  bottom: 40px;
   width: 100%;
   background-color: #ffeb81;
   color: black;
@@ -264,4 +267,91 @@ body {
   left: calc(
     50% + 80px
   ); /* Adjust this value to move the button more to the right */
+}
+
+.back-icon {
+  width: auto;
+  height: 30px;
+}
+
+.back-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  left: 10px;
+}
+
+.game-selection {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 100px;
+}
+
+.select-casino,
+.select-arcade {
+  width: 50%;
+  padding: 20px;
+  margin: 10px 0;
+  border-radius: 20px;
+  color: #2d2727;
+  text-align: center;
+  border: none;
+  cursor: pointer;
+  font-size: 40px;
+}
+
+.select-casino {
+  font-family: "Alfa Slab One", sans-serif;
+  letter-spacing: 1px;
+  background: linear-gradient(to bottom, #b3001b, #5e000d); /* Red Velvet */
+}
+
+.select-arcade {
+  font-family: "Orbitron", sans-serif;
+  background: linear-gradient(to bottom, #00e6e6, #006666); /* Neon Blue */
+}
+
+.select-casino:hover {
+  background: linear-gradient(
+    to bottom,
+    #d10020,
+    #70000f
+  ); /* Brighter on hover */
+}
+
+.select-arcade:hover {
+  background: linear-gradient(
+    to bottom,
+    #00ffff,
+    #008080
+  ); /* Brighter on hover */
+}
+
+.select-slots {
+  width: 50%;
+  padding: 20px;
+  margin: 10px 0;
+  border-radius: 20px;
+  color: #2d2727;
+  text-align: center;
+  border: none;
+  cursor: pointer;
+  font-family: "Alfa Slab One", sans-serif; /* Same as Casino */
+  font-size: 40px;
+  background: linear-gradient(to bottom, #f9d423, #e2a72d); /* Gold gradient */
+  letter-spacing: 1px;
+  transition: background 0.3s ease; /* Smooth transition */
+}
+
+.select-slots:hover {
+  background: linear-gradient(
+    to bottom,
+    #f8c76c,
+    #d8a03d
+  ); /* Brighter gold gradient on hover */
 }

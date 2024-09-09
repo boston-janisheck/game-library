@@ -12,6 +12,7 @@ import cherryIcon from "../assets/images/slots-icon-cherry.png";
 import grapesIcon from "../assets/images/slots-icon-grapes.png";
 import diamondIcon from "../assets/images/slots-icon-diamond.png";
 import orangeIcon from "../assets/images/slots-icon-orange.png";
+import placeholder from "../../../shared/assets/images/placeholder.png";
 
 const pointsData = [
   { symbol: sevenIcon, points: 500 },
@@ -25,9 +26,9 @@ const pointsData = [
 const Slots = ({ balance, setBalance, allPoints, setAllPoints }) => {
   const elements = pointsData.map((item) => item.symbol);
 
-  const [slot1, setSlot1] = useState(elements[0]);
-  const [slot2, setSlot2] = useState(elements[0]);
-  const [slot3, setSlot3] = useState(elements[0]);
+  const [slot1, setSlot1] = useState(placeholder);
+  const [slot2, setSlot2] = useState(placeholder);
+  const [slot3, setSlot3] = useState(placeholder);
   const [isSpinning, setIsSpinning] = useState(false);
   const [wager, setWager] = useState(1);
   const [showWinPopup, setShowWinPopup] = useState(false); // State for showing the popup
@@ -61,29 +62,34 @@ const Slots = ({ balance, setBalance, allPoints, setAllPoints }) => {
       spinSlot(setSlot3, 3000),
     ]);
 
-    setIsSpinning(false);
+    // Delay the entire sequence by 400ms
+    setTimeout(() => {
+      const points =
+        calculatePoints(results[0], results[1], results[2], pointsData) * wager;
 
-    const points =
-      calculatePoints(results[0], results[1], results[2], pointsData) * wager;
+      // Animate the points addition
+      let currentPoints = allPoints;
+      const targetPoints = allPoints + points;
+      const interval = setInterval(() => {
+        if (currentPoints < targetPoints) {
+          currentPoints += 1;
+          setAllPoints(currentPoints);
+        } else {
+          clearInterval(interval);
+        }
+      }, 20); // Adjust the speed as needed
 
-    // Animate the points addition
-    let currentPoints = allPoints;
-    const targetPoints = allPoints + points;
-    const interval = setInterval(() => {
-      if (currentPoints < targetPoints) {
-        currentPoints += 1;
-        setAllPoints(currentPoints);
-      } else {
-        clearInterval(interval);
+      // Delay showing the popup by 400ms
+      if (points > 0) {
+        setLastPoints(points); // Store points won in state
+        setShowWinPopup(true); // Show the popup after 400ms
       }
-    }, 20); // Adjust the speed as needed
 
-    if (points > 0) {
-      setLastPoints(points); // Store points won in state
-      setShowWinPopup(true); // Show the popup if points were won
-    }
+      // Stop spinning after everything is done
+      setIsSpinning(false);
 
-    console.log(`You earned ${points} points! Total Points: ${targetPoints}`);
+      console.log(`You earned ${points} points! Total Points: ${targetPoints}`);
+    }, 400); // 400ms delay
   };
 
   return (

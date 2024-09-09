@@ -381,3 +381,40 @@ body {
     #d8a03d
   ); /* Brighter gold gradient on hover */
 }
+
+.select-blackjack {
+  width: 50%;
+  padding: 20px;
+  margin: 10px 0;
+  border-radius: 20px;
+  color: #2d2727;
+  text-align: center;
+  border: none;
+  cursor: pointer;
+  font-family: "Alfa Slab One", sans-serif; /* Same as Casino */
+  font-size: 40px;
+  background: linear-gradient(
+    to bottom,
+    #d3d3d3,
+    #a9a9a9
+  ); /* Shiny silver gradient */
+  letter-spacing: 1px;
+  transition: background 0.3s ease; /* Smooth transition */
+}
+
+.select-blackjack:hover {
+  background: linear-gradient(
+    to bottom,
+    #e0e0e0,
+    #bfbfbf
+  ); /* Brighter silver gradient on hover */
+}
+
+.coming-soon {
+  font-family: "Orbitron", sans-serif;
+  font-size: 40px;
+  color: #000;
+  margin-top: 100px;
+  display: flex;
+  justify-content: center;
+}

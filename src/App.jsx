@@ -1,9 +1,10 @@
 import { useState } from "react";
+import { TriangleLeftIcon } from "@radix-ui/react-icons";
 import NavBar from "./shared/components/NavBar";
 import Footer from "./shared/components/Footer.jsx";
 import PlayerStatusBar from "./shared/components/PlayerStatusBar";
 import Slots from "./casino/slots/components/Slots";
-import { TriangleLeftIcon } from "@radix-ui/react-icons";
+import Blackjack from "./casino/blackjack/Blackjack.jsx";
 
 const App = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -41,7 +42,7 @@ const App = () => {
     }
 
     if (selectedCategory === "arcade") {
-      return <h2>Games coming soon</h2>;
+      return <h2 className="coming-soon">Games coming soon!</h2>;
     }
 
     if (selectedCategory === "casino" && !selectedGame) {
@@ -53,7 +54,12 @@ const App = () => {
           >
             Play Slots
           </button>
-          {/* Add more buttons for additional casino games here */}
+          <button
+            className="select-blackjack"
+            onClick={() => setSelectedGame("blackjack")}
+          >
+            Play Blackjack
+          </button>
         </div>
       );
     }
@@ -67,6 +73,10 @@ const App = () => {
           setAllPoints={setAllPoints}
         />
       );
+    }
+
+    if (selectedGame === "blackjack") {
+      return <Blackjack />;
     }
   };
 

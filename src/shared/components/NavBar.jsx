@@ -2,6 +2,7 @@ import casinoLogo from "../assets/images/casino-icon.png";
 import arcadeLogo from "../assets/images/arcade-icon.png";
 import slotsLogo from "../assets/images/slots-icon.png";
 import homeLogo from "../assets/images/home-icon.png";
+import blackjackLogo from "../assets/images/blackjack-icon.png";
 
 const NavBar = ({ selectedCategory, selectedGame }) => {
   let title = "Play Games";
@@ -19,6 +20,10 @@ const NavBar = ({ selectedCategory, selectedGame }) => {
   } else if (selectedGame === "slots") {
     title = "Slots";
     logo = slotsLogo;
+    fontFamily = '"Alfa Slab One", sans-serif'; // Font for Slots
+  } else if (selectedGame === "blackjack") {
+    title = "Blackjack";
+    logo = blackjackLogo;
     fontFamily = '"Alfa Slab One", sans-serif'; // Font for Slots
   }
 

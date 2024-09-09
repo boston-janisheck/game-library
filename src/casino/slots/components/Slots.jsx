@@ -1,17 +1,17 @@
 import { useState } from "react";
 import SlotsGrid from "./SlotsGrid";
 import SpinButton from "./SpinButton";
-import PlayerStatusBar from "./PlayerStatusBar";
+import PlayerStatusBar from "../../../shared/components/PlayerStatusBar";
 import { calculatePoints } from "./PointsCalculator";
 import PointsKey from "./PointsKey";
 import WagerButton from "./WagerButton";
 import WinPopup from "./WinPopup";
-import sevenIcon from "/src/assets/slots-icon-seven.png";
-import cloverIcon from "/src/assets/slots-icon-clover.png";
-import cherryIcon from "/src/assets/slots-icon-cherry.png";
-import grapesIcon from "/src/assets/slots-icon-grapes.png";
-import diamondIcon from "/src/assets/slots-icon-diamond.png";
-import orangeIcon from "/src/assets/slots-icon-orange.png";
+import sevenIcon from "../assets/images/slots-icon-seven.png";
+import cloverIcon from "../assets/images/slots-icon-clover.png";
+import cherryIcon from "../assets/images/slots-icon-cherry.png";
+import grapesIcon from "../assets/images/slots-icon-grapes.png";
+import diamondIcon from "../assets/images/slots-icon-diamond.png";
+import orangeIcon from "../assets/images/slots-icon-orange.png";
 
 const pointsData = [
   { symbol: sevenIcon, points: 500 },
@@ -95,7 +95,11 @@ const Slots = ({ balance, setBalance, allPoints, setAllPoints }) => {
             onClose={() => setShowWinPopup(false)} // Hide popup on close
           />
         )}
-        <PointsKey pointsData={pointsData} wager={wager} />
+        <PointsKey
+          pointsData={pointsData}
+          wager={wager}
+          sevenIcon={sevenIcon}
+        />
         <SlotsGrid slot1={slot1} slot2={slot2} slot3={slot3} />
         <div className="controls">
           {!isSpinning && (

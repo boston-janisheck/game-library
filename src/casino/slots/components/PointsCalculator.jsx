@@ -1,4 +1,4 @@
-import sevenIcon from "/src/assets/slots-icon-seven.png";
+import sevenIcon from "../assets/images/slots-icon-seven.png";
 
 export const calculatePoints = (slot1, slot2, slot3, pointsData) => {
   const slots = [slot1, slot2, slot3];

@@ -1,19 +1,24 @@
+import casinoLogo from "../assets/images/casino-icon.png";
+import arcadeLogo from "../assets/images/arcade-icon.png";
+import slotsLogo from "../assets/images/slots-icon.png";
+import homeLogo from "../assets/images/home-icon.png";
+
 const NavBar = ({ selectedCategory, selectedGame }) => {
   let title = "Play Games";
-  let logo = "src/assets/home-icon.png";
+  let logo = homeLogo;
   let fontFamily = '"Inter", sans-serif'; // Default font
 
   if (selectedCategory === "casino" && selectedGame === null) {
     title = "The Casino";
-    logo = "src/assets/casino-icon.png";
+    logo = casinoLogo;
     fontFamily = '"Alfa Slab One", sans-serif'; // Font for Casino
   } else if (selectedCategory === "arcade" && selectedGame === null) {
     title = "The Arcade";
-    logo = "src/assets/arcade-icon.png";
+    logo = arcadeLogo;
     fontFamily = '"Orbitron", sans-serif'; // Font for Arcade
   } else if (selectedGame === "slots") {
     title = "Slots";
-    logo = "src/assets/slots-icon.png";
+    logo = slotsLogo;
     fontFamily = '"Alfa Slab One", sans-serif'; // Font for Slots
   }
 

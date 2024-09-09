@@ -1,9 +1,9 @@
 import { useState } from "react";
-import NavBar from "./NavBar";
-import Slots from "./Slots";
-import Footer from "./Footer";
+import NavBar from "./shared/components/NavBar";
+import Footer from "./shared/components/Footer.jsx";
+import PlayerStatusBar from "./shared/components/PlayerStatusBar";
+import Slots from "./casino/slots/components/Slots";
 import { TriangleLeftIcon } from "@radix-ui/react-icons";
-import PlayerStatusBar from "./PlayerStatusBar";
 
 const App = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);

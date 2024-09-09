@@ -1,4 +1,6 @@
-import insertCoinsSound from "/src/assets/sounds/insert-coins.wav";
+import insertCoinsSound from "../assets/sounds/insert-coins.wav";
+import buxIcon from "../assets/images/bux.png";
+import tokensIcon from "../assets/images/tokens.png";
 
 const PlayerStatusBar = ({ allPoints, balance, setBalance }) => {
   const addTokens = () => {
@@ -14,11 +16,11 @@ const PlayerStatusBar = ({ allPoints, balance, setBalance }) => {
   return (
     <div className="player-status-bar">
       <span className="balance-container">
-        <img src="src/assets/bux.png" alt="bux" className="icon" />
+        <img src={buxIcon} alt="bux" className="icon" />
         <span className="balance">{allPoints}</span>
       </span>
       <span className="balance-container">
-        <img src="src/assets/tokens.png" alt="token" className="icon" />
+        <img src={tokensIcon} alt="token" className="icon" />
         <span className="balance">{balance}</span>
       </span>
       <button className="add-tokens-button" onClick={addTokens}>

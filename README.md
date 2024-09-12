@@ -2,7 +2,7 @@
 
 This is a work-in-progress slots game built using React. The game allows players to spin a set of three slots, wager tokens, and accumulate points based on the results. More features and enhancements will be added as development progresses.
 
-![Slots Screenshot](src/assets/slots-screenshot.png)
+![Slots Screenshot](src/shared/assets/images/slots-screenshot.png)
 
 ## Features
 

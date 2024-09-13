@@ -1,12 +1,18 @@
 const express = require("express");
 const app = express();
 const PORT = process.env.PORT || 5001;
+const { Pool } = require("pg");
 
-// Import the routes
-const gameRoutes = require("./routes/gameRoutes");
+const pool = new Pool({
+  user: "myuser",
+  host: "/var/run/postgresql", // or use a different host if you've configured it
+  database: "game_library",
+  password: "mypassword",
+});
 
-// Middleware to parse incoming JSON
 app.use(express.json());
+
+const gameRoutes = require("./routes/gameRoutes");
 
 // Use the game routes
 app.use("/api/game", gameRoutes);

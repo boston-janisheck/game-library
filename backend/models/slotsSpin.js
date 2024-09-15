@@ -1,9 +1,20 @@
-const mongoose = require("mongoose");
+const { DataTypes } = require("sequelize");
+const sequelize = require("../config/database"); // Import the shared Sequelize instance
 
-const slotsSpinSchema = new mongoose.Schema({
-  userId: String,
-  spinId: { type: Number, default: Date.now() },
-  score: Number,
+const SlotsSpin = sequelize.define("SlotsSpin", {
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+  },
+  userId: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  spinScore: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
 });
 
-module.exports = mongoose.model("SlotsSpin", slotsSpinSchema);
+module.exports = SlotsSpin;

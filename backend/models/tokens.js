@@ -1,8 +1,21 @@
-const mongoose = require("mongoose");
+const { DataTypes } = require("sequelize");
+const sequelize = require("../config/database"); // Import the shared Sequelize instance
 
-const tokenSchema = new mongoose.Schema({
-  userId: String,
-  tokens: Number,
+const Token = sequelize.define("Token", {
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+  },
+  userId: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  tokens: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    defaultValue: 0,
+  },
 });
 
-module.exports = mongoose.model("Token", tokenSchema);
+module.exports = Token;

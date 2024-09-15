@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { TriangleLeftIcon } from "@radix-ui/react-icons";
 import NavBar from "./shared/components/NavBar";
 import Footer from "./shared/components/Footer.jsx";
@@ -20,6 +20,22 @@ const App = () => {
       setSelectedCategory(null); // Go back to the category selection
     }
   };
+
+  const apiEndpoint = "https://your-api-endpoint.com/api"; // Replace with your API endpoint
+
+  useEffect(() => {
+    if (selectedGame) {
+      fetch(`${apiEndpoint}/balance`)
+        .then((response) => response.json())
+        .then((data) => setBalance(data.balance))
+        .catch((error) => console.error("Error fetching balance:", error));
+
+      fetch(`${apiEndpoint}/points`)
+        .then((response) => response.json())
+        .then((data) => setAllPoints(data.points))
+        .catch((error) => console.error("Error fetching points:", error));
+    }
+  }, [selectedGame]);
 
   const renderContent = () => {
     if (!selectedCategory) {

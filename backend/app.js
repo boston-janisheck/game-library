@@ -1,28 +1,39 @@
 const express = require("express");
 const app = express();
-const PORT = process.env.PORT || 5001;
-const { Pool } = require("pg");
+const { Sequelize } = require("sequelize");
+require("dotenv").config();
 
-const pool = new Pool({
-  user: "myuser",
-  host: "/var/run/postgresql", // or use a different host if you've configured it
-  database: "game_library",
-  password: "mypassword",
-});
-
-app.use(express.json());
-
+// Import the routes
 const gameRoutes = require("./routes/gameRoutes");
 
-// Use the game routes
+// Initialize Sequelize instance (you probably already did this)
+const sequelize = new Sequelize(
+  process.env.DB_NAME,
+  process.env.DB_USER,
+  process.env.DB_PASSWORD,
+  {
+    host: "localhost",
+    dialect: "postgres",
+  }
+);
+
+// Sync models (synchronize your models with the database)
+sequelize.sync().then(() => {
+  console.log("Database synchronized.");
+});
+
+// Express middlewares
+app.use(express.json());
+
+// Use your defined routes
 app.use("/api/game", gameRoutes);
 
-// Basic route for testing
+// Basic home route for testing
 app.get("/", (req, res) => {
   res.send("Backend is running!");
 });
 
-// Start the server
+const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });

@@ -1,21 +1,21 @@
 const { DataTypes } = require("sequelize");
-const sequelize = require("../config/database"); // Import the shared Sequelize instance
+const sequelize = require("../config/database"); // Adjust the path as needed
 
-const Token = sequelize.define("Token", {
-  id: {
-    type: DataTypes.INTEGER,
-    primaryKey: true,
-    autoIncrement: true,
+const Tokens = sequelize.define(
+  "Tokens",
+  {
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    balance: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
   },
-  userId: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  tokens: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    defaultValue: 0,
-  },
-});
+  {
+    timestamps: true,
+  }
+);
 
-module.exports = Token;
+module.exports = Tokens;

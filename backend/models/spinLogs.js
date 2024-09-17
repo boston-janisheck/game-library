@@ -1,15 +1,19 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/database");
 
-const Bux = sequelize.define(
-  "Bux",
+const SpinLogs = sequelize.define(
+  "SpinLogs",
   {
     userId: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    balance: {
-      type: DataTypes.INTEGER,
+    outcome: {
+      type: DataTypes.STRING, // Assuming outcome is stored as a string
+      allowNull: false,
+    },
+    dateTime: {
+      type: DataTypes.DATE, // Stores timestamp of when the spin occurred
       allowNull: false,
     },
   },
@@ -18,4 +22,4 @@ const Bux = sequelize.define(
   }
 );
 
-module.exports = Bux;
+module.exports = SpinLogs;

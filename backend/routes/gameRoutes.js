@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Token = require("../models/tokens");
 const Bux = require("../models/bux");
-const SlotsSpin = require("../models/slotsSpin");
+const SpinLogs = require("../models/spinLogs");
 
 // ----------------[ Token Endpoints ]------------------ //
 
@@ -60,12 +60,12 @@ router.post("/bux", async (req, res) => {
   }
 });
 
-// ----------------[ SlotsSpin Endpoints ]------------------ //
+// ----------------[ SpinLogs Endpoints ]------------------ //
 
 // Get user's slot spins
-router.get("/slotsSpin/:userId", async (req, res) => {
+router.get("/spinLogs/:userId", async (req, res) => {
   try {
-    const spins = await SlotsSpin.findAll({
+    const spins = await SpinLogs.findAll({
       where: { userId: req.params.userId },
     });
     return res.json(spins);
@@ -75,10 +75,10 @@ router.get("/slotsSpin/:userId", async (req, res) => {
 });
 
 // Create a spin result for the user
-router.post("/slotsSpin", async (req, res) => {
+router.post("/spinLogs", async (req, res) => {
   const { userId, spinScore } = req.body;
   try {
-    const spin = await SlotsSpin.create({ userId, spinScore });
+    const spin = await SpinLogs.create({ userId, spinScore });
     return res.json(spin);
   } catch (err) {
     return res.status(500).json({ error: err.message });

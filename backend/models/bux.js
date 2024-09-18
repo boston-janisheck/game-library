@@ -7,6 +7,7 @@ const Bux = sequelize.define(
     userId: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      unique: true,
     },
     balance: {
       type: DataTypes.INTEGER,
@@ -14,6 +15,7 @@ const Bux = sequelize.define(
     },
   },
   {
+    tableName: "bux",
     timestamps: true, // This will add 'createdAt' and 'updatedAt' fields
   }
 );

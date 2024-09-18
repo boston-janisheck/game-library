@@ -1,31 +1,35 @@
 const express = require("express");
-const { Sequelize } = require("sequelize");
+const sequelize = require("./config/database");
 require("dotenv").config();
 const Tokens = require("./models/tokens");
 const Bux = require("./models/bux");
 const SpinLogs = require("./models/spinLogs");
+const cors = require("cors");
 
 // Import the routes
 const gameRoutes = require("./routes/gameRoutes");
 
 const app = express();
 
+const corsOptions = {
+  origin: "http://localhost:5173", // Allow only the origin of your React dev server
+};
+app.use(cors(corsOptions)); // Apply CORS settings
+
 // Express JSON parsing middleware
 app.use(express.json()); // This needs to come before any routes that will use it
 
-// Initialize Sequelize instance (make sure you've configured it correctly in .env)
-const sequelize = new Sequelize(
-  process.env.DB_DATABASE,
-  process.env.DB_USER,
-  process.env.DB_PASSWORD,
-  {
-    host: process.env.DB_HOST,
-    dialect: "postgres",
-  }
-);
+sequelize
+  .authenticate()
+  .then(() => {
+    console.log("Connection has been established successfully.");
+  })
+  .catch((err) => {
+    console.error("Unable to connect to the database:", err);
+  });
 
 // Sync models (synchronize your models with the database)
-sequelize.sync().then(() => {
+sequelize.sync({ alter: true }).then(() => {
   console.log("Database synchronized.");
 });
 
@@ -73,7 +77,7 @@ app.post("/spinlogs", async (req, res) => {
 });
 
 // Use your defined routes
-app.use("/api/game", gameRoutes);
+app.use(gameRoutes);
 
 // Basic home route for testing
 app.get("/", (req, res) => {

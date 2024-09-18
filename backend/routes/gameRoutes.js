@@ -85,4 +85,18 @@ router.post("/spinLogs", async (req, res) => {
   }
 });
 
+// ----------------[ New Dummy Endpoints for Balance and Points ]------------------ //
+
+// Temporary mock route for /balance
+router.get("/balance", (req, res) => {
+  const dummyBalance = { balance: 100 }; // Mock balance value
+  res.json(dummyBalance); // Send back as JSON to the frontend
+});
+
+// Temporary mock route for /points (e.g., bux)
+router.get("/points", (req, res) => {
+  const dummyPoints = { points: 200 }; // Mock points value (bux)
+  res.json(dummyPoints); // Send back as JSON to the frontend
+});
+
 module.exports = router;

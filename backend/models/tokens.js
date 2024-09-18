@@ -7,6 +7,7 @@ const Tokens = sequelize.define(
     userId: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      unique: true,
     },
     balance: {
       type: DataTypes.INTEGER,
@@ -14,6 +15,7 @@ const Tokens = sequelize.define(
     },
   },
   {
+    tableName: "tokens",
     timestamps: true,
   }
 );

@@ -18,6 +18,7 @@ const SpinLogs = sequelize.define(
     },
   },
   {
+    tableName: "spinlogs",
     timestamps: true, // This will add 'createdAt' and 'updatedAt' fields
   }
 );

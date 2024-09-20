@@ -1,20 +1,24 @@
 const express = require("express");
 const router = express.Router();
-const Token = require("../models/tokens");
-const Bux = require("../models/bux");
-const SpinLogs = require("../models/spinLogs");
+const Token = require("../models/tokens"); // Correct path based on filename
+const Bux = require("../models/bux"); // Correct path based on filename
 
-// ----------------[ Token Endpoints (Ensuring Proper `upsert()`) ]------------------ //
+// ----------------[ TOKEN ENDPOINTS ]------------------ //
 
-// Get user's token balance by userId
+// Get user's tokens by userId
 router.get("/tokens/:userId", async (req, res) => {
   try {
+    console.log(`Fetching tokens for userId: ${req.params.userId}`);
+
     const tokens = await Token.findOne({
       where: { userId: req.params.userId },
     });
+
     if (tokens) {
-      return res.json(tokens); // Respond with found token balance
+      console.log("Fetched tokens:", tokens.dataValues);
+      return res.json(tokens); // Return the found token balance
     } else {
+      console.warn("User not found for tokens fetch:", req.params.userId);
       return res.status(404).json({ message: "User not found." });
     }
   } catch (err) {
@@ -23,41 +27,50 @@ router.get("/tokens/:userId", async (req, res) => {
   }
 });
 
-// Save or update a user's tokens
+// Save or update user's tokens
 router.post("/tokens", async (req, res) => {
   const { userId, balance } = req.body;
 
+  console.log("Received tokens payload:", { userId, balance });
+
   if (balance === null || isNaN(balance)) {
+    console.error("Invalid token balance:", { balance });
     return res.status(400).json({ error: "Invalid token balance" });
   }
 
   try {
-    // Use `upsert()` to update existing user tokens
-    const [tokenRecord, created] = await Token.upsert({
-      userId, // Reference by unique userId
-      balance, // Update token balance or create new record
-    });
+    const token = await Token.findOne({ where: { userId } });
 
-    return res.json({
-      tokenRecord,
-      created,
-      message: created ? "Record created" : "Record updated",
-    });
+    if (token) {
+      console.log("Updating existing token for user:", userId);
+      await Token.update({ balance }, { where: { userId } });
+      console.log("Token updated:", { userId, balance });
+      return res.json({ message: "Token updated" });
+    } else {
+      console.log("Creating a new token record for user:", userId);
+      await Token.create({ userId, balance });
+      console.log("Token created:", { userId, balance });
+      return res.json({ message: "Token created" });
+    }
   } catch (error) {
     console.error("Error saving tokens:", error);
     return res.status(500).json({ error: "Failed to save tokens" });
   }
 });
 
-// ----------------[ Bux Endpoints (Fixing to Handle `upsert()` Properly) ]------------------ //
+// ----------------[ BUX ENDPOINTS ] ------------------ //
 
 // Get user's bux balance by userId
 router.get("/bux/:userId", async (req, res) => {
   try {
+    console.log(`Fetching bux for userId: ${req.params.userId}`);
+
     const bux = await Bux.findOne({ where: { userId: req.params.userId } });
     if (bux) {
+      console.log("Fetched bux:", bux.dataValues);
       return res.json(bux); // Return found bux balance
     } else {
+      console.warn("User not found for bux fetch:", req.params.userId);
       return res.status(404).json({ message: "User not found." });
     }
   } catch (err) {
@@ -66,60 +79,33 @@ router.get("/bux/:userId", async (req, res) => {
   }
 });
 
-// Save or update user's bux (fixing upsert flow)
+// Save or update user's bux
 router.post("/bux", async (req, res) => {
   const { userId, allPoints } = req.body;
+  console.log("Received bux payload:", { userId, allPoints });
 
   if (allPoints === null || isNaN(allPoints)) {
+    console.error("Invalid bux balance:", { allPoints });
     return res.status(400).json({ error: "Invalid bux balance" });
   }
 
   try {
-    // Use upsert, just like for tokens, to manage bux updates
-    const [buxRecord, created] = await Bux.upsert({
-      userId, // Reference userId
-      balance: allPoints, // Store allPoints as balance for Bux
-    });
+    const bux = await Bux.findOne({ where: { userId } });
 
-    return res.json({
-      buxRecord,
-      created,
-      message: created ? "Record created" : "Record updated",
-    });
+    if (bux) {
+      console.log("Updating existing bux for user:", userId);
+      await Bux.update({ balance: allPoints }, { where: { userId } });
+      console.log("Bux updated:", { userId, allPoints });
+      return res.json({ message: "Bux updated" });
+    } else {
+      console.log("Creating a new bux record for user:", userId);
+      await Bux.create({ userId, balance: allPoints });
+      console.log("Bux created:", { userId, allPoints });
+      return res.json({ message: "Bux created" });
+    }
   } catch (error) {
     console.error("Error saving bux:", error);
     return res.status(500).json({ error: "Failed to save bux" });
-  }
-});
-
-// ----------------[ SpinLogs Endpoints: Properly Manage Spins ]------------------ //
-
-// Get user's spin logs using userId
-router.get("/spinLogs/:userId", async (req, res) => {
-  try {
-    const spins = await SpinLogs.findAll({
-      where: { userId: req.params.userId },
-    });
-    return res.json(spins);
-  } catch (err) {
-    return res.status(500).json({ error: err.message });
-  }
-});
-
-// Log a spin result for the user
-router.post("/spinLogs", async (req, res) => {
-  const { userId, spinScore } = req.body;
-
-  try {
-    const newSpin = await SpinLogs.create({
-      userId: userId,
-      spinScore: spinScore, // Save spin score
-    });
-
-    return res.json(newSpin);
-  } catch (err) {
-    console.error("Error saving spin log:", err);
-    return res.status(500).json({ error: "Error saving spin log" });
   }
 });
 

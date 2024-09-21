@@ -29,7 +29,7 @@ sequelize
   });
 
 // Sync models (synchronize your models with the database)
-sequelize.sync({ alter: true }).then(() => {
+sequelize.sync().then(() => {
   console.log("Database synchronized.");
 });
 

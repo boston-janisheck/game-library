@@ -1,4 +1,5 @@
 const express = require("express");
+const { execSync } = require("child_process");
 const sequelize = require("./config/database");
 require("dotenv").config();
 const Tokens = require("./models/tokens");
@@ -19,19 +20,22 @@ app.use(cors(corsOptions)); // Apply CORS settings
 // Express JSON parsing middleware
 app.use(express.json()); // This needs to come before any routes that will use it
 
+// Check database connection
 sequelize
   .authenticate()
   .then(() => {
     console.log("Connection has been established successfully.");
+    // Run Sequelize migrations
+    try {
+      execSync("npx sequelize-cli db:migrate");
+      console.log("Migrations applied successfully");
+    } catch (error) {
+      console.error("Error applying migrations:", error);
+    }
   })
   .catch((err) => {
     console.error("Unable to connect to the database:", err);
   });
-
-// Sync models (synchronize your models with the database)
-sequelize.sync().then(() => {
-  console.log("Database synchronized.");
-});
 
 // POST endpoint to store tokens
 app.post("/tokens", async (req, res) => {

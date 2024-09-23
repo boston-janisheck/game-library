@@ -4,7 +4,7 @@ import SpinButton from "./SpinButton";
 import PlayerStatusBar from "../../../shared/components/PlayerStatusBar";
 import { calculatePoints } from "./PointsCalculator";
 import PointsKey from "./PointsKey";
-import WagerButton from "./WagerButton";
+import WagerButton from "../../../shared/components/WagerButton";
 import WinPopup from "./WinPopup";
 import sevenIcon from "../assets/images/slots-icon-seven.png";
 import cloverIcon from "../assets/images/slots-icon-clover.png";

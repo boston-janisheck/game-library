@@ -1,4 +1,4 @@
-import tokensIcon from "../../../shared/assets/images/tokens.png";
+import tokensIcon from "../assets/images/tokens.png";
 
 const WagerButton = ({ wager, setWager }) => {
   const handleWagerClick = () => {

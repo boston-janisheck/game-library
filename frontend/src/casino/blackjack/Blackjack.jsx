@@ -17,11 +17,10 @@ const Blackjack = ({ balance, setBalance, allPoints, setAllPoints }) => {
   const [isGameOver, setIsGameOver] = useState(false);
   const [wager, setWager] = useState(1);
   const [gameResult, setGameResult] = useState("");
+  const [showDealButton, setShowDealButton] = useState(true);
 
   useEffect(() => {
-    if (balance > 0) {
-      initializeGame();
-    }
+    initializeGame();
   }, []);
 
   const initializeGame = () => {
@@ -37,11 +36,12 @@ const Blackjack = ({ balance, setBalance, allPoints, setAllPoints }) => {
     setDealerTotal(0);
     setIsPlayerTurn(false);
     setIsGameOver(false);
+    setShowDealButton(true);
     setGameResult("");
   };
 
   const dealInitialCards = () => {
-    if (deck.length < 4) return; // Ensure there are enough cards to deal
+    if (deck.length < 4) return;
     const newDeck = [...deck];
     const playerCards = [newDeck.pop(), newDeck.pop()];
     const dealerCards = [newDeck.pop(), newDeck.pop()];
@@ -49,10 +49,11 @@ const Blackjack = ({ balance, setBalance, allPoints, setAllPoints }) => {
     setPlayerHand(playerCards);
     setDealerHand(dealerCards);
     setPlayerTotal(calculateHandValue(playerCards));
-    setDealerTotal(calculateHandValue([dealerCards[0]])); // Only use face up card's value for initial dealer total
+    setDealerTotal(calculateHandValue([dealerCards[0]]));
     setDeck(newDeck);
     setIsPlayerTurn(true);
-    setBalance((prevBalance) => prevBalance - wager); // Deduct the wager from balance
+    setShowDealButton(false);
+    setBalance((prevBalance) => prevBalance - wager);
   };
 
   const handleHit = () => {
@@ -91,13 +92,13 @@ const Blackjack = ({ balance, setBalance, allPoints, setAllPoints }) => {
     determineWinner(newDealerTotal);
   };
 
-  const determineWinner = (dealerTotal) => {
+  const determineWinner = (finalDealerTotal) => {
     const playerValue = playerTotal;
 
-    if (dealerTotal > 21 || playerValue > dealerTotal) {
+    if (finalDealerTotal > 21 || playerValue > finalDealerTotal) {
       endGame(`Congrats! You won ${80 * wager} points!`);
       setBalance((prevBalance) => prevBalance + 80 * wager);
-    } else if (playerValue < dealerTotal) {
+    } else if (playerValue < finalDealerTotal) {
       endGame("Dealer Wins!");
     } else {
       endGame("Push! It's a tie.");
@@ -125,20 +126,19 @@ const Blackjack = ({ balance, setBalance, allPoints, setAllPoints }) => {
             isPlayerTurn={isPlayerTurn}
           />
           <div className="controls">
-            {isPlayerTurn ? (
-              <ActionButtons handleHit={handleHit} handleStand={handleStand} />
-            ) : (
+            {showDealButton ? (
               <DealButton
                 handleDeal={dealInitialCards}
                 balance={balance}
                 wager={wager}
-                disabled={isPlayerTurn || isGameOver}
               />
+            ) : (
+              <ActionButtons handleHit={handleHit} handleStand={handleStand} />
             )}
             <WagerButton
               wager={wager}
               setWager={setWager}
-              disabled={isPlayerTurn}
+              disabled={isPlayerTurn || balance < wager}
             />
           </div>
         </div>

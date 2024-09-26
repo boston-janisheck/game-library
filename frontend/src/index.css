@@ -85,7 +85,7 @@ body {
   padding: 0 3px 0 3px;
 }
 
-.spin-button {
+.action-button {
   font-family: "Alfa Slab One", sans-serif;
   font-size: 70px;
   padding: 0px 20px;
@@ -114,7 +114,7 @@ body {
   }
 }
 
-.spin-button:disabled {
+.action-button:disabled {
   background-color: #333;
   color: #ffeb81;
 }
@@ -289,7 +289,7 @@ body {
   color: white;
 }
 
-.win-popup-button {
+.popup-button {
   background-color: #ffeb70;
   color: #333;
   border: 3px solid #000;
@@ -310,7 +310,7 @@ body {
   margin-top: 150px;
 }
 
-.controls .spin-button {
+.controls .action-button {
   position: relative; /* Ensures the spin button stays properly positioned */
 }
 

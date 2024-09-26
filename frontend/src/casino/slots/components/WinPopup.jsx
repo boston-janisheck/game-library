@@ -8,7 +8,7 @@ const WinPopup = ({ points, onClose }) => {
           <span className="points-text">{points}</span>
         </div>
         <p className="win-popup-message">points!</p>
-        <button className="win-popup-button" onClick={onClose}>
+        <button className="popup-button" onClick={onClose}>
           Continue
         </button>
       </div>

@@ -18,6 +18,7 @@ const Blackjack = ({ balance, setBalance, allPoints, setAllPoints }) => {
   const [wager, setWager] = useState(1);
   const [gameResult, setGameResult] = useState("");
   const [showDealButton, setShowDealButton] = useState(true);
+  const [isDealing, setIsDealing] = useState(false);
 
   useEffect(() => {
     initializeGame();
@@ -37,11 +38,13 @@ const Blackjack = ({ balance, setBalance, allPoints, setAllPoints }) => {
     setIsPlayerTurn(false);
     setIsGameOver(false);
     setShowDealButton(true);
+    setIsDealing(false);
     setGameResult("");
   };
 
   const dealInitialCards = () => {
-    if (deck.length < 4) return;
+    if (deck.length < 4 || isDealing) return;
+    setIsDealing(true);
     const newDeck = [...deck];
     const playerCards = [newDeck.pop(), newDeck.pop()];
     const dealerCards = [newDeck.pop(), newDeck.pop()];
@@ -56,6 +59,7 @@ const Blackjack = ({ balance, setBalance, allPoints, setAllPoints }) => {
     setIsPlayerTurn(true);
     setShowDealButton(false);
     setBalance((prevBalance) => prevBalance - wager);
+    setIsDealing(false);
   };
 
   const updatePlayerTotal = (hand) => {
@@ -71,12 +75,12 @@ const Blackjack = ({ balance, setBalance, allPoints, setAllPoints }) => {
 
   const handlePlayerWin = (points) => {
     const totalPoints = points * wager;
+    setAllPoints((prevPoints) => prevPoints + totalPoints);
     endGame(`Congrats! You won ${totalPoints} points!`);
-    // Balance update logic will be handled next
   };
 
   const handleHit = () => {
-    if (!isPlayerTurn || isGameOver) return;
+    if (!isPlayerTurn || isGameOver || isDealing) return;
     const newDeck = [...deck];
     const newCard = newDeck.pop();
     const newPlayerHand = [...playerHand, newCard];
@@ -143,8 +147,8 @@ const Blackjack = ({ balance, setBalance, allPoints, setAllPoints }) => {
             {showDealButton ? (
               <DealButton
                 handleDeal={dealInitialCards}
-                balance={balance}
-                wager={wager}
+                isDealing={isDealing}
+                isDisabled={balance < wager}
               />
             ) : (
               <ActionButtons handleHit={handleHit} handleStand={handleStand} />

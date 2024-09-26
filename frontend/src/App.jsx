@@ -119,7 +119,14 @@ const App = () => {
     }
 
     if (selectedGame === "blackjack") {
-      return <Blackjack />;
+      return (
+        <Blackjack
+          balance={balance}
+          setBalance={setBalance}
+          allPoints={allPoints}
+          setAllPoints={setAllPoints}
+        />
+      );
     }
   };
 

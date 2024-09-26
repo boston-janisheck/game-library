@@ -48,12 +48,31 @@ const Blackjack = ({ balance, setBalance, allPoints, setAllPoints }) => {
 
     setPlayerHand(playerCards);
     setDealerHand(dealerCards);
-    setPlayerTotal(calculateHandValue(playerCards));
-    setDealerTotal(calculateHandValue([dealerCards[0]]));
     setDeck(newDeck);
+
+    updatePlayerTotal(playerCards);
+    setDealerTotal(calculateHandValue([dealerCards[0]]));
+
     setIsPlayerTurn(true);
     setShowDealButton(false);
     setBalance((prevBalance) => prevBalance - wager);
+  };
+
+  const updatePlayerTotal = (hand) => {
+    const total = calculateHandValue(hand);
+    setPlayerTotal(total);
+
+    if (total === 21) {
+      handlePlayerWin(80); // 80 points for 21
+    } else if (total > 21) {
+      endGame("You Busted!");
+    }
+  };
+
+  const handlePlayerWin = (points) => {
+    const totalPoints = points * wager;
+    endGame(`Congrats! You won ${totalPoints} points!`);
+    // Balance update logic will be handled next
   };
 
   const handleHit = () => {
@@ -62,14 +81,10 @@ const Blackjack = ({ balance, setBalance, allPoints, setAllPoints }) => {
     const newCard = newDeck.pop();
     const newPlayerHand = [...playerHand, newCard];
 
-    const newPlayerTotal = calculateHandValue(newPlayerHand);
     setPlayerHand(newPlayerHand);
     setDeck(newDeck);
-    setPlayerTotal(newPlayerTotal);
 
-    if (newPlayerTotal > 21) {
-      endGame("You Busted!");
-    }
+    updatePlayerTotal(newPlayerHand);
   };
 
   const handleStand = () => {
@@ -96,19 +111,18 @@ const Blackjack = ({ balance, setBalance, allPoints, setAllPoints }) => {
     const playerValue = playerTotal;
 
     if (finalDealerTotal > 21 || playerValue > finalDealerTotal) {
-      endGame(`Congrats! You won ${80 * wager} points!`);
-      setBalance((prevBalance) => prevBalance + 80 * wager);
+      handlePlayerWin(30); // 30 points for beating the dealer
     } else if (playerValue < finalDealerTotal) {
       endGame("Dealer Wins!");
     } else {
-      endGame("Push! It's a tie.");
-      setBalance((prevBalance) => prevBalance + wager);
+      handlePlayerWin(15); // 15 points for push
     }
   };
 
   const endGame = (result) => {
     setGameResult(result);
     setIsGameOver(true);
+    setIsPlayerTurn(false);
   };
 
   return (
@@ -138,7 +152,7 @@ const Blackjack = ({ balance, setBalance, allPoints, setAllPoints }) => {
             <WagerButton
               wager={wager}
               setWager={setWager}
-              disabled={isPlayerTurn || balance < wager}
+              disabled={isPlayerTurn || isGameOver || balance < wager}
             />
           </div>
         </div>

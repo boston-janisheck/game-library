@@ -10,13 +10,13 @@ const BlackjackTable = ({
 }) => {
   return (
     <div className="blackjack-table">
-      <div className="dealer-section">
-        <div className="dealer-total">{dealerTotal}</div>
+      <div className="blackjack-section">
+        <div className="blackjack-total">{dealerTotal}</div>
         <Hand cards={dealerHand} hideSecondCard={isPlayerTurn} />
-        <div className="dealer-label">Dealer draws to 16, stands on 17</div>
       </div>
-      <div className="player-section">
-        <div className="player-total">{playerTotal}</div>
+      <div className="dealer-label">Dealer draws to 16, stands on 17</div>
+      <div className="blackjack-section">
+        <div className="blackjack-total">{playerTotal}</div>
         <Hand cards={playerHand} />
       </div>
     </div>

@@ -1,11 +1,11 @@
 const SpinButton = ({ handleSpin, isSpinning, isDisabled }) => {
   return !isSpinning ? (
     <button
-      className={`action-button ${!isDisabled ? "pulse-animation" : ""}`}
+      className={`spin-button ${!isDisabled ? "pulse-animation" : ""}`}
       onClick={handleSpin}
       disabled={isDisabled}
     >
-      SPIN!
+      SPIN
     </button>
   ) : null;
 };

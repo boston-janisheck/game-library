@@ -135,7 +135,7 @@ const Blackjack = ({ balance, setBalance, allPoints, setAllPoints }) => {
         {isGameOver && (
           <GameOverPopup result={gameResult} onClose={resetGame} />
         )}
-        <div className="slot-machine">
+        <div className="blackjack-container">
           <BlackjackTable
             playerHand={playerHand}
             dealerHand={dealerHand}
@@ -145,19 +145,21 @@ const Blackjack = ({ balance, setBalance, allPoints, setAllPoints }) => {
           />
           <div className="controls">
             {showDealButton ? (
-              <DealButton
-                handleDeal={dealInitialCards}
-                isDealing={isDealing}
-                isDisabled={balance < wager}
-              />
+              <>
+                <DealButton
+                  handleDeal={dealInitialCards}
+                  isDealing={isDealing}
+                  isDisabled={balance < wager}
+                />
+                <WagerButton
+                  wager={wager}
+                  setWager={setWager}
+                  disabled={isPlayerTurn || isGameOver || balance < wager}
+                />
+              </>
             ) : (
               <ActionButtons handleHit={handleHit} handleStand={handleStand} />
             )}
-            <WagerButton
-              wager={wager}
-              setWager={setWager}
-              disabled={isPlayerTurn || isGameOver || balance < wager}
-            />
           </div>
         </div>
       </div>

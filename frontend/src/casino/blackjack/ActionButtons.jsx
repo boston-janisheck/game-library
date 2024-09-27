@@ -2,9 +2,13 @@ import React from "react";
 
 const ActionButtons = ({ handleHit, handleStand }) => {
   return (
-    <div className="action-buttons">
-      <button onClick={handleHit}>Hit</button>
-      <button onClick={handleStand}>Stand</button>
+    <div>
+      <button className="blackjack-action-button" onClick={handleHit}>
+        HIT
+      </button>
+      <button className="blackjack-action-button" onClick={handleStand}>
+        STAND
+      </button>
     </div>
   );
 };

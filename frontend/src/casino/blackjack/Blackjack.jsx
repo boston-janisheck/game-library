@@ -45,32 +45,50 @@ const Blackjack = ({ balance, setBalance, allPoints, setAllPoints }) => {
   const dealInitialCards = () => {
     if (deck.length < 4 || isDealing) return;
     setIsDealing(true);
+
     const newDeck = [...deck];
     const playerCards = [newDeck.pop(), newDeck.pop()];
     const dealerCards = [newDeck.pop(), newDeck.pop()];
 
-    setPlayerHand(playerCards);
-    setDealerHand(dealerCards);
+    // Deal the first card to player and dealer immediately
+    setPlayerHand([playerCards[0]]);
+    setDealerHand([dealerCards[0]]);
+    setPlayerTotal(calculateHandValue([playerCards[0]]));
+    setDealerTotal(calculateHandValue([dealerCards[0]]));
     setDeck(newDeck);
 
-    updatePlayerTotal(playerCards);
-    setDealerTotal(calculateHandValue([dealerCards[0]]));
+    // Deal the second card to player and dealer after a delay
+    const dealCardWithDelay = (callback, delay) => {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          callback();
+          resolve();
+        }, delay);
+      });
+    };
 
-    setIsPlayerTurn(true);
-    setShowDealButton(false);
-    setBalance((prevBalance) => prevBalance - wager);
-    setIsDealing(false);
-  };
+    (async () => {
+      await dealCardWithDelay(() => {
+        setPlayerHand([playerCards[0], playerCards[1]]);
+        setDealerHand([dealerCards[0], dealerCards[1]]);
+        const newTotal = calculateHandValue([playerCards[0], playerCards[1]]);
+        setPlayerTotal(newTotal);
+        if (newTotal === 21) {
+          setTimeout(() => {
+            handlePlayerWin(80); // 80 points for 21
+          }, 400);
+        } else if (newTotal > 21) {
+          setTimeout(() => {
+            endGame("You Busted!");
+          }, 400);
+        }
+      }, 400);
 
-  const updatePlayerTotal = (hand) => {
-    const total = calculateHandValue(hand);
-    setPlayerTotal(total);
-
-    if (total === 21) {
-      handlePlayerWin(80); // 80 points for 21
-    } else if (total > 21) {
-      endGame("You Busted!");
-    }
+      setIsPlayerTurn(true);
+      setShowDealButton(false);
+      setBalance((prevBalance) => prevBalance - wager);
+      setIsDealing(false);
+    })();
   };
 
   const handlePlayerWin = (points) => {
@@ -88,7 +106,18 @@ const Blackjack = ({ balance, setBalance, allPoints, setAllPoints }) => {
     setPlayerHand(newPlayerHand);
     setDeck(newDeck);
 
-    updatePlayerTotal(newPlayerHand);
+    const newTotal = calculateHandValue(newPlayerHand);
+    setPlayerTotal(newTotal);
+
+    if (newTotal === 21) {
+      setTimeout(() => {
+        handlePlayerWin(80); // 80 points for 21
+      }, 400);
+    } else if (newTotal > 21) {
+      setTimeout(() => {
+        endGame("You Busted!");
+      }, 400);
+    }
   };
 
   const handleStand = () => {
@@ -96,19 +125,38 @@ const Blackjack = ({ balance, setBalance, allPoints, setAllPoints }) => {
     handleDealerTurn();
   };
 
-  const handleDealerTurn = () => {
+  const handleDealerTurn = async () => {
     const newDeck = [...deck];
     let newDealerHand = [...dealerHand];
     let newDealerTotal = calculateHandValue(newDealerHand);
-    while (newDealerTotal < 17) {
-      newDealerHand = [...newDealerHand, newDeck.pop()];
-      newDealerTotal = calculateHandValue(newDealerHand);
-    }
+
+    const revealCardWithDelay = (callback, delay) => {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          callback();
+          resolve();
+        }, delay);
+      });
+    };
+
+    // Flip the second card immediately
+    newDealerHand.push(newDeck.pop());
     setDealerHand(newDealerHand);
-    setDeck(newDeck);
+    newDealerTotal = calculateHandValue(newDealerHand);
     setDealerTotal(newDealerTotal);
 
-    determineWinner(newDealerTotal);
+    while (newDealerTotal < 17) {
+      await revealCardWithDelay(() => {
+        newDealerHand.push(newDeck.pop());
+        setDealerHand([...newDealerHand]);
+        newDealerTotal = calculateHandValue(newDealerHand);
+        setDealerTotal(newDealerTotal);
+      }, 400);
+    }
+
+    setTimeout(() => {
+      determineWinner(newDealerTotal);
+    }, 400);
   };
 
   const determineWinner = (finalDealerTotal) => {

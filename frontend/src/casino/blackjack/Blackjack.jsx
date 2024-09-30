@@ -44,7 +44,10 @@ const Blackjack = ({ balance, setBalance, allPoints, setAllPoints }) => {
 
   const dealInitialCards = () => {
     if (deck.length < 4 || isDealing) return;
+
     setIsDealing(true);
+    setShowDealButton(false); // Hide the buttons immediately
+    setBalance((prevBalance) => prevBalance - wager); // Immediately deduct the wager from balance
 
     const newDeck = [...deck];
     const playerCards = [newDeck.pop(), newDeck.pop()];
@@ -84,8 +87,6 @@ const Blackjack = ({ balance, setBalance, allPoints, setAllPoints }) => {
       }, 400);
 
       setIsPlayerTurn(true);
-      setShowDealButton(false);
-      setBalance((prevBalance) => prevBalance - wager);
       setIsDealing(false);
     })();
   };

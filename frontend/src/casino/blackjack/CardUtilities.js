@@ -25,6 +25,11 @@ export const calculateHandValue = (hand) => {
   let numberOfAces = 0;
 
   hand.forEach((card) => {
+    if (!card || !card.value) {
+      console.error("Invalid card:", card);
+      return;
+    }
+
     if (card.value === "J" || card.value === "Q" || card.value === "K") {
       value += 10;
     } else if (card.value === "A") {

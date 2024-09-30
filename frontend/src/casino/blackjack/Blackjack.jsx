@@ -57,7 +57,6 @@ const Blackjack = ({ balance, setBalance, allPoints, setAllPoints }) => {
     setDealerTotal(calculateHandValue([dealerCards[0]]));
     setDeck(newDeck);
 
-    // Deal the second card to player and dealer after a delay
     const dealCardWithDelay = (callback, delay) => {
       return new Promise((resolve) => {
         setTimeout(() => {
@@ -130,29 +129,25 @@ const Blackjack = ({ balance, setBalance, allPoints, setAllPoints }) => {
     let newDealerHand = [...dealerHand];
     let newDealerTotal = calculateHandValue(newDealerHand);
 
-    const revealCardWithDelay = (callback, delay) => {
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          callback();
-          resolve();
-        }, delay);
-      });
-    };
-
-    // Flip the second card immediately
-    newDealerHand.push(newDeck.pop());
+    // Flip the face-down card immediately
+    newDealerHand[1] = newDeck.pop();
     setDealerHand(newDealerHand);
     newDealerTotal = calculateHandValue(newDealerHand);
     setDealerTotal(newDealerTotal);
 
-    while (newDealerTotal < 17) {
-      await revealCardWithDelay(() => {
-        newDealerHand.push(newDeck.pop());
+    // Deal subsequent cards with a 400ms delay
+    const dealSubsequentCards = async () => {
+      while (newDealerTotal < 17) {
+        await new Promise((resolve) => setTimeout(resolve, 400));
+        const newCard = newDeck.pop();
+        newDealerHand.push(newCard);
         setDealerHand([...newDealerHand]);
         newDealerTotal = calculateHandValue(newDealerHand);
         setDealerTotal(newDealerTotal);
-      }, 400);
-    }
+      }
+    };
+
+    await dealSubsequentCards();
 
     setTimeout(() => {
       determineWinner(newDealerTotal);

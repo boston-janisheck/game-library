@@ -31,6 +31,8 @@ const Blackjack = ({ balance, setBalance, allPoints, setAllPoints }) => {
   };
 
   const resetGame = () => {
+    const newDeck = shuffleDeck(createDeck()); // Ensure fresh shuffled deck
+    setDeck(newDeck);
     setPlayerHand([]);
     setDealerHand([]);
     setPlayerTotal(0);
@@ -100,7 +102,15 @@ const Blackjack = ({ balance, setBalance, allPoints, setAllPoints }) => {
   const handleHit = () => {
     if (!isPlayerTurn || isGameOver || isDealing) return;
     const newDeck = [...deck];
+    if (newDeck.length === 0) {
+      console.error("Deck is empty, cannot draw a card");
+      return;
+    }
     const newCard = newDeck.pop();
+    if (!newCard) {
+      console.error("Drew an undefined card from the deck");
+      return;
+    }
     const newPlayerHand = [...playerHand, newCard];
 
     setPlayerHand(newPlayerHand);
@@ -139,8 +149,16 @@ const Blackjack = ({ balance, setBalance, allPoints, setAllPoints }) => {
     // Deal subsequent cards with a 400ms delay
     const dealSubsequentCards = async () => {
       while (newDealerTotal < 17) {
+        if (newDeck.length === 0) {
+          console.error("Deck is empty, cannot draw a card");
+          break;
+        }
         await new Promise((resolve) => setTimeout(resolve, 400));
         const newCard = newDeck.pop();
+        if (!newCard) {
+          console.error("Drew an undefined card from the deck");
+          break;
+        }
         newDealerHand.push(newCard);
         setDealerHand([...newDealerHand]);
         newDealerTotal = calculateHandValue(newDealerHand);

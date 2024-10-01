@@ -16,7 +16,7 @@ const Blackjack = ({ balance, setBalance, allPoints, setAllPoints }) => {
   const [isPlayerTurn, setIsPlayerTurn] = useState(false);
   const [isGameOver, setIsGameOver] = useState(false);
   const [wager, setWager] = useState(1);
-  const [gameResult, setGameResult] = useState("");
+  const [gameResult, setGameResult] = useState({ title: "", message: "" });
   const [showDealButton, setShowDealButton] = useState(true);
   const [isDealing, setIsDealing] = useState(false);
 
@@ -41,7 +41,7 @@ const Blackjack = ({ balance, setBalance, allPoints, setAllPoints }) => {
     setIsGameOver(false);
     setShowDealButton(true);
     setIsDealing(false);
-    setGameResult("");
+    setGameResult({ title: "", message: "" });
   };
 
   const dealInitialCards = () => {
@@ -55,7 +55,6 @@ const Blackjack = ({ balance, setBalance, allPoints, setAllPoints }) => {
     const playerCards = [newDeck.pop(), newDeck.pop()];
     const dealerCards = [newDeck.pop(), newDeck.pop()];
 
-    // Deal the first card to player and dealer immediately
     setPlayerHand([playerCards[0]]);
     setDealerHand([dealerCards[0]]);
     setPlayerTotal(calculateHandValue([playerCards[0]]));
@@ -83,7 +82,7 @@ const Blackjack = ({ balance, setBalance, allPoints, setAllPoints }) => {
           }, 400);
         } else if (newTotal > 21) {
           setTimeout(() => {
-            endGame("You Busted!");
+            endGame("You Busted!", "Better luck next time!");
           }, 400);
         }
       }, 400);
@@ -96,7 +95,7 @@ const Blackjack = ({ balance, setBalance, allPoints, setAllPoints }) => {
   const handlePlayerWin = (points) => {
     const totalPoints = points * wager;
     setAllPoints((prevPoints) => prevPoints + totalPoints);
-    endGame(`Congrats! You won ${totalPoints} points!`);
+    endGame("21!", `You just won ${totalPoints} bux!`);
   };
 
   const handleHit = () => {
@@ -125,7 +124,7 @@ const Blackjack = ({ balance, setBalance, allPoints, setAllPoints }) => {
       }, 400);
     } else if (newTotal > 21) {
       setTimeout(() => {
-        endGame("You Busted!");
+        endGame("You Busted!", "Better luck next time!");
       }, 400);
     }
   };
@@ -176,17 +175,22 @@ const Blackjack = ({ balance, setBalance, allPoints, setAllPoints }) => {
   const determineWinner = (finalDealerTotal) => {
     const playerValue = playerTotal;
 
-    if (finalDealerTotal > 21 || playerValue > finalDealerTotal) {
-      handlePlayerWin(30); // 30 points for beating the dealer
+    if (finalDealerTotal > 21) {
+      handlePlayerWin(30); // Dealer busts
+      endGame("Dealer busts!", `You just won ${30 * wager} bux!`);
+    } else if (playerValue > finalDealerTotal) {
+      handlePlayerWin(30); // Player wins
+      endGame("Player wins!", `You just won ${30 * wager} bux!`);
     } else if (playerValue < finalDealerTotal) {
-      endGame("Dealer Wins!");
+      endGame("Dealer wins!", "Better luck next time!");
     } else {
-      handlePlayerWin(15); // 15 points for push
+      handlePlayerWin(15); // Push
+      endGame("Push!", `You just won ${15 * wager} bux!`);
     }
   };
 
-  const endGame = (result) => {
-    setGameResult(result);
+  const endGame = (title, message) => {
+    setGameResult({ title, message });
     setIsGameOver(true);
     setIsPlayerTurn(false);
   };
@@ -195,7 +199,11 @@ const Blackjack = ({ balance, setBalance, allPoints, setAllPoints }) => {
     <>
       <div className="blackjack-game">
         {isGameOver && (
-          <GameOverPopup result={gameResult} onClose={resetGame} />
+          <GameOverPopup
+            title={gameResult.title}
+            message={gameResult.message}
+            onClose={resetGame}
+          />
         )}
         <div className="blackjack-container">
           <BlackjackTable

@@ -582,3 +582,11 @@ body {
   border: 3px solid #000;
   border-radius: 5px;
 }
+
+.card.red {
+  color: red;
+}
+
+.card.black {
+  color: black;
+}

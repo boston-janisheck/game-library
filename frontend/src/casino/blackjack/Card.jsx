@@ -8,8 +8,10 @@ const suitsSymbols = {
 };
 
 const Card = ({ value, suit }) => {
+  const color = suit === "♦" || suit === "♥" ? "red" : "black";
+
   return (
-    <div className={`card ${value === "Face Down" ? "face-down" : ""}`}>
+    <div className={`card ${value === "Face Down" ? "face-down" : color}`}>
       {value !== "Face Down" ? (
         <>
           <span className="card-value">{value}</span>

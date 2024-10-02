@@ -6,6 +6,7 @@ import PlayerStatusBar from "./shared/components/PlayerStatusBar";
 import Slots from "./casino/slots/components/Slots";
 import Blackjack from "./casino/blackjack/Blackjack.jsx";
 import { saveTokens, saveBux } from "./api/tokensApi";
+import DrawPoker from "./casino/drawPoker/DrawPoker";
 
 const App = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -84,8 +85,29 @@ const App = () => {
       );
     }
 
-    if (selectedCategory === "arcade") {
-      return <h2 className="coming-soon">Games coming soon!</h2>;
+    if (selectedCategory === "arcade" && !selectedGame) {
+      return (
+        <div className="game-selection">
+          <button
+            className="select-snake"
+            onClick={() => setSelectedGame("snake")}
+          >
+            Play Snake
+          </button>
+          <button
+            className="select-minesweeper"
+            onClick={() => setSelectedGame("minesweeper")}
+          >
+            Play Minesweeper
+          </button>
+          <button
+            className="select-flappy-bird"
+            onClick={() => setSelectedGame("flappyBird")}
+          >
+            Play Flappy Bird
+          </button>
+        </div>
+      );
     }
 
     if (selectedCategory === "casino" && !selectedGame) {
@@ -102,6 +124,12 @@ const App = () => {
             onClick={() => setSelectedGame("blackjack")}
           >
             Play Blackjack
+          </button>
+          <button
+            className="select-draw-poker"
+            onClick={() => setSelectedGame("drawPoker")}
+          >
+            Play Draw Poker
           </button>
         </div>
       );
@@ -127,6 +155,29 @@ const App = () => {
           setAllPoints={setAllPoints}
         />
       );
+    }
+
+    if (selectedGame === "drawPoker") {
+      return (
+        <DrawPoker
+          balance={balance}
+          setBalance={setBalance}
+          allPoints={allPoints}
+          setAllPoints={setAllPoints}
+        />
+      );
+    }
+
+    if (selectedGame === "snake") {
+      return <h2 className="coming-soon-arcade">Coming soon!</h2>;
+    }
+
+    if (selectedGame === "minesweeper") {
+      return <h2 className="coming-soon-arcade">Coming soon!</h2>;
+    }
+
+    if (selectedGame === "flappyBird") {
+      return <h2 className="coming-soon-arcade">Coming soon!</h2>;
     }
   };
 

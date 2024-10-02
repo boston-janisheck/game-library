@@ -24,7 +24,23 @@ const NavBar = ({ selectedCategory, selectedGame }) => {
   } else if (selectedGame === "blackjack") {
     title = "Blackjack";
     logo = blackjackLogo;
-    fontFamily = '"Alfa Slab One", sans-serif'; // Font for Slots
+    fontFamily = '"Alfa Slab One", sans-serif'; // Font for Blackjack
+  } else if (selectedGame === "drawPoker") {
+    title = "Draw Poker";
+    logo = casinoLogo;
+    fontFamily = '"Alfa Slab One", sans-serif'; // Font for Draw Poker
+  } else if (selectedGame === "snake") {
+    title = "Snake";
+    logo = arcadeLogo;
+    fontFamily = '"Orbitron", sans-serif'; // Font for Snake
+  } else if (selectedGame === "minesweeper") {
+    title = "Minesweeper";
+    logo = arcadeLogo;
+    fontFamily = '"Orbitron", sans-serif'; // Font for Minesweeper
+  } else if (selectedGame === "flappyBird") {
+    title = "Flappy Bird";
+    logo = arcadeLogo;
+    fontFamily = '"Orbitron", sans-serif'; // Font for Flappy Bird
   }
 
   return (

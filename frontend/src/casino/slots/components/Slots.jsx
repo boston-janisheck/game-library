@@ -120,11 +120,6 @@ const Slots = ({ balance, setBalance, allPoints, setAllPoints }) => {
           )}
         </div>
       </div>
-      <PlayerStatusBar
-        allPoints={allPoints}
-        balance={balance}
-        setBalance={setBalance}
-      />
     </>
   );
 };

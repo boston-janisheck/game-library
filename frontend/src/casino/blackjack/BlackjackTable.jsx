@@ -1,5 +1,5 @@
 import React from "react";
-import Hand from "./Hand";
+import Hand from "../shared/Hand";
 
 const BlackjackTable = ({
   playerHand,

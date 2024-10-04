@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import BlackjackTable from "./BlackjackTable";
-import DealButton from "./DealButton";
+import DealButton from "../shared/DealButton";
 import ActionButtons from "./ActionButtons";
 import PlayerStatusBar from "../../shared/components/PlayerStatusBar";
-import { createDeck, shuffleDeck, calculateHandValue } from "./CardUtilities";
+import { calculateHandValue } from "./BlackjackUtilities";
+import { createDeck, shuffleDeck } from "../shared/CardUtilities";
 import GameOverPopup from "./GameOverPopup";
 import WagerButton from "../../shared/components/WagerButton";
 
@@ -233,11 +234,6 @@ const Blackjack = ({ balance, setBalance, allPoints, setAllPoints }) => {
           </div>
         </div>
       </div>
-      <PlayerStatusBar
-        allPoints={allPoints}
-        balance={balance}
-        setBalance={setBalance}
-      />
     </>
   );
 };

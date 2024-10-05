@@ -1,4 +1,3 @@
-// PokerUtilities.js
 export const evaluateHand = (hand) => {
   // Sort hand by value, supporting evaluating some poker hands better
   hand = hand.slice().sort((a, b) => {
@@ -11,7 +10,7 @@ export const evaluateHand = (hand) => {
   // Determine if the hand is a flush
   const isFlush = hand.every((card) => card.suit === hand[0].suit);
 
-  // Determine if hand is a straight
+  // Determine if the hand is a straight
   const values = hand.map((card) => {
     const order = { J: 11, Q: 12, K: 13, A: 14 };
     return typeof card.value === "string" ? order[card.value] : card.value;
@@ -23,44 +22,36 @@ export const evaluateHand = (hand) => {
   const isRoyal = isStraight && values[0] === 10; // Specifically identifies a royal flush
   const uniqueValuesCount = new Set(values).size;
 
-  if (isFlush && isRoyal) return 5000; // Royal Flush
-  if (isFlush && isStraight) return 1500; // Straight Flush
+  const occurrences = values.reduce((acc, v) => {
+    acc[v] = (acc[v] || 0) + 1;
+    return acc;
+  }, {});
+
+  if (isFlush && isRoyal) return { title: "Royal Flush", points: 5000 };
+  if (isFlush && isStraight) return { title: "Straight Flush", points: 1500 };
   if (uniqueValuesCount === 2) {
-    // Check for Four of a Kind or Full House
-    const occurrences = values.reduce((acc, v) => {
-      acc[v] = (acc[v] || 0) + 1;
-      return acc;
-    }, {});
-
-    if (Object.values(occurrences).includes(4)) return 600; // Four Of A Kind
-    if (Object.values(occurrences).includes(3)) return 300; // Full House
+    if (Object.values(occurrences).includes(4))
+      return { title: "Four Of A Kind", points: 600 };
+    if (Object.values(occurrences).includes(3))
+      return { title: "Full House", points: 300 };
   }
-  if (isFlush) return 200; // Flush
-  if (isStraight) return 125; // Straight
+  if (isFlush) return { title: "Flush", points: 200 };
+  if (isStraight) return { title: "Straight", points: 125 };
   if (uniqueValuesCount === 3) {
-    // Three of a Kind or Two Pair
-    const occurrences = values.reduce((acc, v) => {
-      acc[v] = (acc[v] || 0) + 1;
-      return acc;
-    }, {});
-
-    if (Object.values(occurrences).includes(3)) return 75; // Three Of A Kind
+    if (Object.values(occurrences).includes(3))
+      return { title: "Three Of A Kind", points: 75 };
     if (Object.values(occurrences).filter((v) => v === 2).length === 2)
-      return 40; // Two Pair
+      return { title: "Two Pair", points: 40 };
   }
   if (uniqueValuesCount === 4) {
-    const occurrences = values.reduce((acc, v) => {
-      acc[v] = (acc[v] || 0) + 1;
-      return acc;
-    }, {});
+    const jacksOrBetter = Object.entries(occurrences)
+      .filter(([value]) => [11, 12, 13, 14].includes(Number(value)))
+      .some(([, count]) => count >= 2);
 
-    if (Object.values(occurrences).includes(2)) {
-      // Jacks or Better
-      if ([11, 12, 13, 14].some((jb) => occurrences[jb])) {
-        return 10; // Jacks Or Better
-      }
+    if (jacksOrBetter) {
+      return { title: "Jacks Or Better", points: 10 };
     }
   }
 
-  return 0; // No winning hand
+  return { title: "No Winning Hand", points: 0 };
 };

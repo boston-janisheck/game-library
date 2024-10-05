@@ -594,6 +594,10 @@ body {
   border: 5px solid #000;
 }
 
+.deal-button:focus {
+  outline: none;
+}
+
 .blackjack-container {
   margin: 100px auto auto auto;
   padding: 10px 0 50px 0;

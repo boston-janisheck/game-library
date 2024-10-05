@@ -2,10 +2,9 @@ import { useState, useEffect } from "react";
 import BlackjackTable from "./BlackjackTable";
 import DealButton from "../shared/DealButton";
 import ActionButtons from "./ActionButtons";
-import PlayerStatusBar from "../../shared/components/PlayerStatusBar";
 import { calculateHandValue } from "./BlackjackUtilities";
 import { createDeck, shuffleDeck } from "../shared/CardUtilities";
-import GameOverPopup from "./GameOverPopup";
+import GameOverPopup from "../shared/GameOverPopup";
 import WagerButton from "../../shared/components/WagerButton";
 
 const Blackjack = ({ balance, setBalance, allPoints, setAllPoints }) => {

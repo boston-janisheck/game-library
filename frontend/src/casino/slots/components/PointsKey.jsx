@@ -18,7 +18,7 @@ const PointsKey = ({ pointsData, wager, sevenIcon }) => {
               alt={`Symbol ${index}`}
               className="symbol-icon"
             />
-            {item.points * wager}
+            {(item.points * wager).toLocaleString()}
             <img src={buxIcon} alt="Bux" className="symbol-icon" />
           </div>
         ))}

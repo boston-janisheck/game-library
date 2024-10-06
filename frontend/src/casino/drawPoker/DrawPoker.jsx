@@ -110,7 +110,7 @@ const DrawPoker = ({ balance, setBalance, allPoints, setAllPoints }) => {
           onClose={resetGame}
         />
       )}
-      <DrawPokerPointsKey />
+      <DrawPokerPointsKey wager={wager} />
       <DrawPokerHand
         cards={playerHand}
         onClickCard={toggleHold}

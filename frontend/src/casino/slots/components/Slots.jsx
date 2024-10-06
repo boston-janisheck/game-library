@@ -1,7 +1,6 @@
 import { useState } from "react";
 import SlotsGrid from "./SlotsGrid";
 import SpinButton from "./SpinButton";
-import PlayerStatusBar from "../../../shared/components/PlayerStatusBar";
 import { calculatePoints } from "./PointsCalculator";
 import PointsKey from "./PointsKey";
 import WagerButton from "../../../shared/components/WagerButton";

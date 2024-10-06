@@ -758,3 +758,54 @@ body {
   margin-left: 5px;
   width: 20px;
 }
+
+.click-to-hold {
+  position: absolute;
+  top: 57%; /* Center vertically */
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: "Alfa Slab One", sans-serif;
+  font-size: 20px;
+  background-color: #ffeb81;
+  color: #333;
+  border-radius: 15px;
+  border: 3px solid #000;
+  padding: 5px 10px;
+}
+
+.controls-draw-poker {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  margin-top: 310px;
+}
+
+.controls-draw-poker .wager-button {
+  position: absolute; /* Allows absolute positioning within the controls div */
+  left: calc(
+    50% + 80px
+  ); /* Adjust this value to move the button more to the right */
+}
+
+.draw-poker-hand {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  user-select: none;
+}
+
+.held-label {
+  font-family: "Alfa Slab One", sans-serif;
+  font-size: 20px;
+  color: #ffeb81;
+  margin: 0 10px;
+  position: absolute;
+  transform: translate(14%, -100%);
+}

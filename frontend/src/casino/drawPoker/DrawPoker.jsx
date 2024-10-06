@@ -116,14 +116,16 @@ const DrawPoker = ({ balance, setBalance, allPoints, setAllPoints }) => {
         onClickCard={toggleHold}
         heldCards={heldCards}
       />
-      <div className="controls">
+      <div>
+        {!showDealButton && <p className="click-to-hold">CLICK TO HOLD</p>}
+      </div>
+      <div className="controls-draw-poker">
         <DealButton
           handleDeal={dealCards}
           isDisabled={showDealButton && balance < wager} // Disable only for the initial deal
         />
         {showWagerButton && <WagerButton wager={wager} setWager={setWager} />}
       </div>
-      <div>{!showDealButton && <p>Tap to hold cards or press 1-5</p>}</div>
     </div>
   );
 };

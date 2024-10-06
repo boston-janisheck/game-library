@@ -3,7 +3,7 @@ import Card from "../shared/Card";
 
 const DrawPokerHand = ({ cards, onClickCard, heldCards }) => {
   return (
-    <div className="hand">
+    <div className="draw-poker-hand">
       {cards.map((card, index) =>
         card && card.value ? (
           <div
@@ -13,10 +13,10 @@ const DrawPokerHand = ({ cards, onClickCard, heldCards }) => {
             }`}
             onClick={() => onClickCard(index)}
           >
-            <Card value={card.value} suit={card.suit} />
             {heldCards.includes(index) && (
-              <span className="held-label">Held</span>
+              <span className="held-label">HELD</span>
             )}
+            <Card value={card.value} suit={card.suit} />
           </div>
         ) : (
           <div key={index} className="card error">

@@ -6,4 +6,6 @@ This is a work-in-progress game library built using React. Users can play any of
 
 ![Blackjack Screenshot](frontend/src/shared/assets/images/blackjack-screenshot.png)
 
+![Draw Poker Screenshot](frontend/src/shared/assets/images/draw-poker-screenshot.png)
+
 The code of this project is made entirely by Boston Janisheck

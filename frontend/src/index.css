@@ -720,3 +720,41 @@ body {
 .card.black {
   color: black;
 }
+
+.points-key {
+  border: 4px solid #000;
+  border-radius: 30px;
+  width: 500px;
+  margin: 20px auto 50px auto;
+  background-color: #333;
+  font-size: 20px;
+  width: 540px;
+}
+
+.points-key .row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2px 20px;
+}
+
+.points-key .row:nth-child(even) {
+  background-color: #444;
+}
+
+.points-key .title {
+  color: #fff;
+  text-align: left;
+}
+
+.points-key .value {
+  color: #ffeb81;
+  text-align: right;
+  display: flex;
+  align-items: center;
+}
+
+.points-key .value img {
+  margin-left: 5px;
+  width: 20px;
+}

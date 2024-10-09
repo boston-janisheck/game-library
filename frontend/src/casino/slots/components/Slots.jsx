@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import SlotsGrid from "./SlotsGrid";
 import SpinButton from "./SpinButton";
 import { calculatePoints } from "./PointsCalculator";
@@ -12,7 +12,9 @@ import grapesIcon from "../assets/images/slots-icon-grapes.png";
 import diamondIcon from "../assets/images/slots-icon-diamond.png";
 import orangeIcon from "../assets/images/slots-icon-orange.png";
 import placeholder from "../../../shared/assets/images/placeholder.png";
+import { useIncrementPoints } from "../../../shared/components/useIncrementPoints"; // Import the custom hook
 
+// Define the points data for each slot symbol
 const pointsData = [
   { symbol: sevenIcon, points: 500 },
   { symbol: cloverIcon, points: 150 },
@@ -30,10 +32,18 @@ const Slots = ({ balance, setBalance, allPoints, setAllPoints }) => {
   const [slot3, setSlot3] = useState(placeholder);
   const [isSpinning, setIsSpinning] = useState(false);
   const [wager, setWager] = useState(1);
-  const [showWinPopup, setShowWinPopup] = useState(false); // State for showing the popup
-  const [lastPoints, setLastPoints] = useState(0); // State to store last points won
+  const [showWinPopup, setShowWinPopup] = useState(false);
+  const [lastPoints, setLastPoints] = useState(0);
 
-  const spinSlot = (setSlot, duration) => {
+  // Handle increments only when lastPoints is updated, preventing reruns
+  useIncrementPoints(allPoints, lastPoints, (newPoints) => {
+    setAllPoints(newPoints); // Update total points in parent state
+    if (newPoints === allPoints + lastPoints) {
+      setLastPoints(0); // Reset after reaching target to prevent re-trigger
+    }
+  });
+
+  const spinSlot = useCallback((setSlot, duration) => {
     return new Promise((resolve) => {
       let index = 0;
       const interval = setInterval(() => {
@@ -48,12 +58,12 @@ const Slots = ({ balance, setBalance, allPoints, setAllPoints }) => {
         resolve(elements[randomIndex]);
       }, duration);
     });
-  };
+  }, [elements]);
 
   const handleSpin = async () => {
-    if (isSpinning || balance < wager) return; // Ensure balance is sufficient for the wager
+    if (isSpinning || balance < wager) return;
     setIsSpinning(true);
-    setBalance((prevBalance) => prevBalance - wager); // Deduct wager from balance
+    setBalance((prevBalance) => prevBalance - wager);
 
     const results = await Promise.all([
       spinSlot(setSlot1, 1000),
@@ -61,65 +71,48 @@ const Slots = ({ balance, setBalance, allPoints, setAllPoints }) => {
       spinSlot(setSlot3, 3000),
     ]);
 
-    // Delay the entire sequence by 400ms
     setTimeout(() => {
-      const points =
-        calculatePoints(results[0], results[1], results[2], pointsData) * wager;
+      // Calculate points earned from the spin
+      const points = calculatePoints(results[0], results[1], results[2], pointsData) * wager;
 
-      // Animate the points addition
-      let currentPoints = allPoints;
-      const targetPoints = allPoints + points;
-      const interval = setInterval(() => {
-        if (currentPoints < targetPoints) {
-          currentPoints += 1;
-          setAllPoints(currentPoints);
-        } else {
-          clearInterval(interval);
-        }
-      }, 20); // Adjust the speed as needed
-
-      // Delay showing the popup by 400ms
+      setLastPoints(points); // Set points to be animated
+      
       if (points > 0) {
-        setLastPoints(points); // Store points won in state
-        setShowWinPopup(true); // Show the popup after 400ms
+        setShowWinPopup(true); // Show popup if points are earned
       }
-
-      // Stop spinning after everything is done
       setIsSpinning(false);
 
-      console.log(`You earned ${points} points! Total Points: ${targetPoints}`);
-    }, 400); // 400ms delay
+      console.log(`You earned ${points} points! Total Points: ${allPoints + points}`);
+    }, 400);
   };
 
   return (
-    <>
-      <div className="slot-machine">
-        {showWinPopup && (
-          <WinPopup
-            points={lastPoints}
-            onClose={() => setShowWinPopup(false)} // Hide popup on close
-          />
-        )}
-        <PointsKey
-          pointsData={pointsData}
-          wager={wager}
-          sevenIcon={sevenIcon}
+    <div className="slot-machine">
+      {showWinPopup && (
+        <WinPopup
+          points={lastPoints}
+          onClose={() => setShowWinPopup(false)}
         />
-        <SlotsGrid slot1={slot1} slot2={slot2} slot3={slot3} />
-        <div className="controls">
-          {!isSpinning && (
-            <>
-              <SpinButton
-                handleSpin={handleSpin}
-                isSpinning={isSpinning}
-                isDisabled={balance < wager}
-              />
-              <WagerButton wager={wager} setWager={setWager} />
-            </>
-          )}
-        </div>
+      )}
+      <PointsKey
+        pointsData={pointsData}
+        wager={wager}
+        sevenIcon={sevenIcon}
+      />
+      <SlotsGrid slot1={slot1} slot2={slot2} slot3={slot3} />
+      <div className="controls">
+        {!isSpinning && (
+          <>
+            <SpinButton
+              handleSpin={handleSpin}
+              isSpinning={isSpinning}
+              isDisabled={balance < wager}
+            />
+            <WagerButton wager={wager} setWager={setWager} />
+          </>
+        )}
       </div>
-    </>
+    </div>
   );
 };
 
